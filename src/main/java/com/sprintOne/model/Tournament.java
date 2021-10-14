@@ -1,7 +1,10 @@
 package com.sprintOne.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Tournament 
@@ -11,6 +14,8 @@ public class Tournament
      private int number_of_qualifiers;
      private int number_of_teams;
      private int number_of_matches_completed;
+     @OneToOne(fetch = FetchType.LAZY)
+ 	 @JoinColumn(name = "match_id")
      private int match_id;
      public Tournament()
      {
