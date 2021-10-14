@@ -18,11 +18,11 @@ public class MatchDetails {
 	@Column(name = "match_id")
 	private int matchId;
 	@OneToOne
-    @JoinColumn(name = "team_id")
+    @JoinColumn(name = "team_name")
 	@Column(name = "team_one")
 	private Team_Details teamOne;
 	@OneToOne
-    @JoinColumn(name = "team_id")
+    @JoinColumn(name = "team_name")
 	@Column(name = "team_two")
 	private Team_Details teamTwo;
 	@Column(name = "match_date")
