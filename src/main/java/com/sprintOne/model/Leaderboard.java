@@ -26,21 +26,24 @@ public class Leaderboard {
 	@Column(name = "bidder_points")
 	private Bidder bidderpoints;
 	
+	@JoinColumn(name = "number_of_teams")
 	@Column(name = "bids_participated")
-	private String bidsparticipated;
+	private Tournament bidsparticipated;
 	
+	@JoinColumn(name = "matches_won")
 	@Column(name = "bids_won")
-	private int bidswon;
+	private TeamPoints_Table bidswon;
 	
+	@JoinColumn(name = "matches_played")
 	@Column(name = "percentile")
-	private float percentile;
+	private TeamPoints_Table percentile;
 	
 	public Leaderboard() {
 		
 	}
 
-	public Leaderboard(int bidder_id, Bidder biddername, Bidder bidderpoints, String bidsparticipated, int bidswon,
-			float percentile) {
+	public Leaderboard(int bidder_id, Bidder biddername, Bidder bidderpoints, Tournament bidsparticipated,
+			TeamPoints_Table bidswon, TeamPoints_Table percentile) {
 		super();
 		this.bidder_id = bidder_id;
 		this.biddername = biddername;
@@ -74,29 +77,30 @@ public class Leaderboard {
 		this.bidderpoints = bidderpoints;
 	}
 
-	public String getBidsparticipated() {
+	public Tournament getBidsparticipated() {
 		return bidsparticipated;
 	}
 
-	public void setBidsparticipated(String bidsparticipated) {
+	public void setBidsparticipated(Tournament bidsparticipated) {
 		this.bidsparticipated = bidsparticipated;
 	}
 
-	public int getBidswon() {
+	public TeamPoints_Table getBidswon() {
 		return bidswon;
 	}
 
-	public void setBidswon(int bidswon) {
+	public void setBidswon(TeamPoints_Table bidswon) {
 		this.bidswon = bidswon;
 	}
 
-	public float getPercentile() {
+	public TeamPoints_Table getPercentile() {
 		return percentile;
 	}
 
-	public void setPercentile(float percentile) {
+	public void setPercentile(TeamPoints_Table percentile) {
 		this.percentile = percentile;
 	}
+
 	
     
 	
