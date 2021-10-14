@@ -20,11 +20,11 @@ public class MatchDetails {
 	@OneToOne
     @JoinColumn(name = "team_id")
 	@Column(name = "team_one")
-	private String teamOne;
+	private Team_Details teamOne;
 	@OneToOne
     @JoinColumn(name = "team_id")
 	@Column(name = "team_two")
-	private String teamTwo;
+	private Team_Details teamTwo;
 	@Column(name = "match_date")
 	private Date matchDate;
 	@Column(name = "match_time")
@@ -42,7 +42,7 @@ public class MatchDetails {
 		
 	}
 
-	public MatchDetails(int matchId, String teamOne, String teamTwo, Date matchDate, LocalTime matchTime,
+	public MatchDetails(int matchId, Team_Details teamOne, Team_Details teamTwo, Date matchDate, LocalTime matchTime,
 			String matchStadium, String winner, String status, String delay) {
 		super();
 		this.matchId = matchId;
@@ -64,19 +64,19 @@ public class MatchDetails {
 		this.matchId = matchId;
 	}
 
-	public String getTeamOne() {
+	public Team_Details getTeamOne() {
 		return teamOne;
 	}
 
-	public void setTeamOne(String teamOne) {
+	public void setTeamOne(Team_Details teamOne) {
 		this.teamOne = teamOne;
 	}
 
-	public String getTeamTwo() {
+	public Team_Details getTeamTwo() {
 		return teamTwo;
 	}
 
-	public void setTeamTwo(String teamTwo) {
+	public void setTeamTwo(Team_Details teamTwo) {
 		this.teamTwo = teamTwo;
 	}
 
@@ -127,5 +127,7 @@ public class MatchDetails {
 	public void setDelay(String delay) {
 		this.delay = delay;
 	}
+
+	
 	
 }
