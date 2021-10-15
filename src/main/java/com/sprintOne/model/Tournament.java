@@ -10,55 +10,54 @@ import javax.persistence.OneToOne;
 public class Tournament 
 {
 	@Id
-     private int tournament_Id;
-     private int number_of_qualifiers;
-     private int number_of_teams;
-     private int number_of_matches_completed;
+     private int tournamentId;
+     private int numberOfQualifiers;
+     private int numberOfTeams;
+     private int numberOfMatchesCompleted;
      @OneToOne(fetch = FetchType.LAZY)
  	 @JoinColumn(name = "match_id")
-     private int match_id;
+     private int matchId;
      public Tournament()
      {
     	 
      }
-	public Tournament(int tournament_Id, int number_of_qualifiers, int number_of_teams, int number_of_matches_completed,
-			int match_id) {
+     public Tournament(int tournamentId, int numberOfQualifiers, int numberOfTeams,	int numberOfMatchesCompleted, int matchId) {
 		super();
-		this.tournament_Id = tournament_Id;
-		this.number_of_qualifiers = number_of_qualifiers;
-		this.number_of_teams = number_of_teams;
-		this.number_of_matches_completed = number_of_matches_completed;
-		this.match_id = match_id;
+		this.tournamentId = tournamentId;
+		this.numberOfQualifiers = numberOfQualifiers;
+		this.numberOfTeams = numberOfTeams;
+		this.numberOfMatchesCompleted = numberOfMatchesCompleted;
+		this.matchId = matchId;
 	}
-	public int getTournament_Id() {
-		return tournament_Id;
+	public int getTournamentId() {
+		return tournamentId;
 	}
-	public void setTournament_Id(int tournament_Id) {
-		this.tournament_Id = tournament_Id;
+	public void setTournamentId(int tournamentId) {
+		this.tournamentId = tournamentId;
 	}
-	public int getNumber_of_qualifiers() {
-		return number_of_qualifiers;
+	public int getNumberOfQualifiers() {
+		return numberOfQualifiers;
 	}
-	public void setNumber_of_qualifiers(int number_of_qualifiers) {
-		this.number_of_qualifiers = number_of_qualifiers;
+	public void setNumberOfQualifiers(int numberOfQualifiers) {
+		this.numberOfQualifiers = numberOfQualifiers;
 	}
-	public int getNumber_of_teams() {
-		return number_of_teams;
+	public int getNumberOfTeams() {
+		return numberOfTeams;
 	}
-	public void setNumber_of_teams(int number_of_teams) {
-		this.number_of_teams = number_of_teams;
+	public void setNumberOfTeams(int numberOfTeams) {
+		this.numberOfTeams = numberOfTeams;
 	}
-	public int getNumber_of_matches_completed() {
-		return number_of_matches_completed;
+	public int getNumberOfMatchesCompleted() {
+		return numberOfMatchesCompleted;
 	}
-	public void setNumber_of_matches_completed(int number_of_matches_completed) {
-		this.number_of_matches_completed = number_of_matches_completed;
+	public void setNumberOfMatchesCompleted(int numberOfMatchesCompleted) {
+		this.numberOfMatchesCompleted = numberOfMatchesCompleted;
 	}
-	public int getMatch_id() {
-		return match_id;
+	public int getMatchId() {
+		return matchId;
 	}
-	public void setMatch_id(int match_id) {
-		this.match_id = match_id;
+	public void setMatchId(int matchId) {
+		this.matchId = matchId;
 	}
      
     

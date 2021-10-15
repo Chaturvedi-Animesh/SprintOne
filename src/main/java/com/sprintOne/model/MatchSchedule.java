@@ -19,11 +19,11 @@ public class MatchSchedule {
 	@OneToOne
     @JoinColumn(name = "team_id")
 	@Column(name = "team_one_id")
-	private Team_Details teamOneId;
+	private TeamDetails teamOneId;
 	@OneToOne
     @JoinColumn(name = "team_id")
 	@Column(name = "team_two_id")
-	private Team_Details teamTwoId;
+	private TeamDetails teamTwoId;
 	@Column(name = "match_date")
 	private Date matchDate;
 	@Column(name = "start_time")
@@ -37,7 +37,7 @@ public class MatchSchedule {
 		
 	}
 
-	public MatchSchedule(int matchId, Team_Details teamOneId, Team_Details teamTwoId, Date matchDate,
+	public MatchSchedule(int matchId, TeamDetails teamOneId, TeamDetails teamTwoId, Date matchDate,
 			LocalTime startTime, LocalTime endTime, String result) {
 		super();
 		this.matchId = matchId;
@@ -57,19 +57,19 @@ public class MatchSchedule {
 		this.matchId = matchId;
 	}
 
-	public Team_Details getTeamOneId() {
+	public TeamDetails getTeamOneId() {
 		return teamOneId;
 	}
 
-	public void setTeamOneId(Team_Details teamOneId) {
+	public void setTeamOneId(TeamDetails teamOneId) {
 		this.teamOneId = teamOneId;
 	}
 
-	public Team_Details getTeamTwoId() {
+	public TeamDetails getTeamTwoId() {
 		return teamTwoId;
 	}
 
-	public void setTeamTwoId(Team_Details teamTwoId) {
+	public void setTeamTwoId(TeamDetails teamTwoId) {
 		this.teamTwoId = teamTwoId;
 	}
 

@@ -14,7 +14,7 @@ public class Leaderboard {
 	
 	@Id
 	@Column(name = "bidder_id")
-	private int bidder_id;
+	private int bidderId;
 	
 	@OneToOne
 	@JoinColumn(name = "name")
@@ -32,20 +32,20 @@ public class Leaderboard {
 	
 	@JoinColumn(name = "matches_won")
 	@Column(name = "bids_won")
-	private TeamPoints_Table bidswon;
+	private TeamPointsTable bidswon;
 	
 	@JoinColumn(name = "matches_played")
 	@Column(name = "percentile")
-	private TeamPoints_Table percentile;
+	private TeamPointsTable percentile;
 	
 	public Leaderboard() {
 		
 	}
 
-	public Leaderboard(int bidder_id, Bidder biddername, Bidder bidderpoints, Tournament bidsparticipated,
-			TeamPoints_Table bidswon, TeamPoints_Table percentile) {
+	public Leaderboard(int bidderId, Bidder biddername, Bidder bidderpoints, Tournament bidsparticipated,
+			TeamPointsTable bidswon, TeamPointsTable percentile) {
 		super();
-		this.bidder_id = bidder_id;
+		this.bidderId = bidderId;
 		this.biddername = biddername;
 		this.bidderpoints = bidderpoints;
 		this.bidsparticipated = bidsparticipated;
@@ -53,12 +53,12 @@ public class Leaderboard {
 		this.percentile = percentile;
 	}
 
-	public int getBidder_id() {
-		return bidder_id;
+	public int getBidderId() {
+		return bidderId;
 	}
 
-	public void setBidder_id(int bidder_id) {
-		this.bidder_id = bidder_id;
+	public void setBidderId(int bidderId) {
+		this.bidderId = bidderId;
 	}
 
 	public Bidder getBiddername() {
@@ -85,19 +85,19 @@ public class Leaderboard {
 		this.bidsparticipated = bidsparticipated;
 	}
 
-	public TeamPoints_Table getBidswon() {
+	public TeamPointsTable getBidswon() {
 		return bidswon;
 	}
 
-	public void setBidswon(TeamPoints_Table bidswon) {
+	public void setBidswon(TeamPointsTable bidswon) {
 		this.bidswon = bidswon;
 	}
 
-	public TeamPoints_Table getPercentile() {
+	public TeamPointsTable getPercentile() {
 		return percentile;
 	}
 
-	public void setPercentile(TeamPoints_Table percentile) {
+	public void setPercentile(TeamPointsTable percentile) {
 		this.percentile = percentile;
 	}
 
