@@ -19,12 +19,12 @@ public class Leaderboard {
 	@OneToOne
 	@JoinColumn(name = "name")
 	@Column(name = "bidder_name")
-	private Bidder biddername;
+	private String biddername;
 	
 	@OneToOne
 	@JoinColumn(name = "points")
 	@Column(name = "bidder_points")
-	private Bidder bidderpoints;
+	private int bidderpoints;
 	
 	@JoinColumn(name = "number_of_teams")
 	@Column(name = "bids_participated")
@@ -42,7 +42,7 @@ public class Leaderboard {
 		
 	}
 
-	public Leaderboard(int bidderId, Bidder biddername, Bidder bidderpoints, Tournament bidsparticipated,
+	public Leaderboard(int bidderId, String biddername, int bidderpoints, Tournament bidsparticipated,
 			TeamPointsTable bidswon, TeamPointsTable percentile) {
 		super();
 		this.bidderId = bidderId;
@@ -61,19 +61,19 @@ public class Leaderboard {
 		this.bidderId = bidderId;
 	}
 
-	public Bidder getBiddername() {
+	public String getBiddername() {
 		return biddername;
 	}
 
-	public void setBiddername(Bidder biddername) {
+	public void setBiddername(String biddername) {
 		this.biddername = biddername;
 	}
 
-	public Bidder getBidderpoints() {
+	public int getBidderpoints() {
 		return bidderpoints;
 	}
 
-	public void setBidderpoints(Bidder bidderpoints) {
+	public void setBidderpoints(int bidderpoints) {
 		this.bidderpoints = bidderpoints;
 	}
 
