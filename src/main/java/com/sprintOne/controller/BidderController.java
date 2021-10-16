@@ -1,7 +1,9 @@
 package com.sprintOne.controller;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,13 +39,14 @@ public class BidderController {
 		}else
 			return new ResponseEntity<>("Registration Successfull!", HttpStatus.OK);
 	}
+
 	
-	@GetMapping("/login/{email}/{password}")
-	public ResponseEntity<String> loginBidder(@PathVariable String email, @PathVariable String password) {
+	@GetMapping("/login")
+	public ResponseEntity<String> loginBidder(String email,String password,HttpServletResponse response) throws IOException {
 		if(bidderService.loginBidder(email, password) == false) {
 			return new ResponseEntity("Login not successfull",HttpStatus.BAD_REQUEST);
 		}else 
-			
+			response.sendRedirect("/system/stats");
 			return new ResponseEntity<>("Login Successfull!", HttpStatus.OK);
 	}
 	
