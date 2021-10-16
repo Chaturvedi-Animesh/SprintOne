@@ -13,6 +13,7 @@ import com.sprintOne.model.BiddingDetails;
 import com.sprintOne.model.MatchDetails;
 import com.sprintOne.model.MatchSchedule;
 import com.sprintOne.model.TeamDetails;
+import com.sprintOne.model.TeamPointsTable;
 import com.sprintOne.model.Tournament;
 import com.sprintOne.dao.AdminDao;
 import com.sprintOne.dao.BidderDao;
@@ -20,6 +21,7 @@ import com.sprintOne.dao.BiddingDetailsDao;
 import com.sprintOne.dao.MatchDetailsDao;
 import com.sprintOne.dao.MatchScheduleDao;
 import com.sprintOne.dao.TeamDetailsDao;
+import com.sprintOne.dao.TeamPointsTableDao;
 import com.sprintOne.dao.TournamentDao;
 
 @Service
@@ -45,6 +47,9 @@ public class AdminService {
 	@Autowired
 	AdminDao adminDao;
 	
+	@Autowired
+	TeamPointsTableDao teamPointsTableDao;
+	
 	int addMatch;
 	
 	//email validation
@@ -61,10 +66,7 @@ public class AdminService {
 			return true;
 		}
 	}
-	/*public void manageTournament(Admin admin) {
-		Tournament tournament = new Tournament(1,4,8,0,1);
-		tournamentDao.save(tournament);
-	}*/
+	
 	
 	/*public void scheduleMatches(Admin admin) {
 		MatchSchedule matchSchedule = new MatchSchedule(1,"team 1","team 2", new Date(2021,02,03), LocalTime.of(20, 10), LocalTime.of(23, 10), "team 1");
@@ -95,17 +97,23 @@ public class AdminService {
 		return false;
 	}
 	
+	
 	public Bidder viewBidder(int id) {
 		return bidderDao.findById(id).get();
 	}
 	
 	
-	
-	public void manageTeams(Admin admin) {
-		TeamDetails teamDetails = new TeamDetails(1, "team 1" , "ground 1" , "15" , "Captain 1");
-		teamDetailsDao.save(teamDetails);
-		
+	public boolean manageTeams(Admin admin, int teamId) {
+		Optional<Admin> adminList = adminDao.findById(teamId);
+		if(adminList.isPresent()) {
+			return false;
+		}else {
+			adminDao.save(admin);
+			return true;
+		}
 	}
+	
+	
 	
 	public void updateTeamStatistics(Admin admin) {
 		
@@ -118,12 +126,21 @@ public class AdminService {
 			if(t.getTournamentId() == tournamentId) {
 				tournament1.remove(tournamentId);
 				return true;        
-				
+				}
 			}
-			
-		}
 		return false;
 	}
+	
+	
+	public void result(TeamPointsTable teamPointsTable) {
+		teamPointsTableDao.save(teamPointsTable);
+	}
+	
+	public void matchAndStadiumDetail(MatchDetails matchDetails) {
+		matchDetailsDao.save(matchDetails);
+	}
+
+	
 	
 	
 
