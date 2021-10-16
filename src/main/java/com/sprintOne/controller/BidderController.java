@@ -50,7 +50,7 @@ public class BidderController {
 	}
 	
 	@GetMapping("/selectTeam/{teamId}")
-	public ResponseEntity<TeamDetails> selectTeam(int teamId){
+	public ResponseEntity<TeamDetails> selectTeam(@PathVariable int teamId){
 		TeamDetails td = bidderService.selectTeam(teamId);
 		if(td == null) {
 			return new ResponseEntity("Team Details not available", HttpStatus.BAD_REQUEST);
