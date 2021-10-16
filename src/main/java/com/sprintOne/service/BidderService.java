@@ -27,10 +27,15 @@ public class BidderService {
 	
 	@Autowired
 	BidderDao bidderDao;
+	@Autowired
 	MatchDetailsDao matchDetailsDao;
+	@Autowired
 	TeamDetailsDao teamDetailsDao;
+	@Autowired
 	TeamPointsTableDao teamPointsTableDao;
+	@Autowired
 	LeaderboardDao leaderboardDao;
+	@Autowired
 	BiddingDetailsDao biddingDetailsDao;
 	
 	public void registerBidder(Bidder bidder) {
