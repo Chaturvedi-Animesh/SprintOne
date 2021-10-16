@@ -42,6 +42,9 @@ public class AdminService {
 	@Autowired
 	BidderDao bidderDao;
 	
+	@Autowired
+	AdminDao adminDao;
+	
 	int addMatch;
 	
 	//email validation
@@ -49,11 +52,19 @@ public class AdminService {
 		bidderDao.save(bidder);
 	}
       
-	
-	public void manageTournament(Admin admin) {
+	public boolean manageTournament(Admin admin, int tournamentId) {
+		Optional<Admin> adminList = adminDao.findById(tournamentId);
+		if(adminList.isPresent()) {
+			return false;
+		}else {
+			adminDao.save(admin);
+			return true;
+		}
+	}
+	/*public void manageTournament(Admin admin) {
 		Tournament tournament = new Tournament(1,4,8,0,1);
 		tournamentDao.save(tournament);
-	}
+	}*/
 	
 	/*public void scheduleMatches(Admin admin) {
 		MatchSchedule matchSchedule = new MatchSchedule(1,"team 1","team 2", new Date(2021,02,03), LocalTime.of(20, 10), LocalTime.of(23, 10), "team 1");
@@ -106,7 +117,8 @@ public class AdminService {
 		for(Tournament t :tournament1) {
 			if(t.getTournamentId() == tournamentId) {
 				tournament1.remove(tournamentId);
-				return true;
+				return true;        
+				
 			}
 			
 		}
