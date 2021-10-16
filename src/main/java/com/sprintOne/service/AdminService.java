@@ -3,16 +3,19 @@ package com.sprintOne.service;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.sprintOne.model.Admin;
+import com.sprintOne.model.Bidder;
 import com.sprintOne.model.BiddingDetails;
 import com.sprintOne.model.MatchDetails;
 import com.sprintOne.model.MatchSchedule;
 import com.sprintOne.model.TeamDetails;
 import com.sprintOne.model.Tournament;
 import com.sprintOne.dao.AdminDao;
+import com.sprintOne.dao.BidderDao;
 import com.sprintOne.dao.BiddingDetailsDao;
 import com.sprintOne.dao.MatchDetailsDao;
 import com.sprintOne.dao.MatchScheduleDao;
@@ -36,7 +39,15 @@ public class AdminService {
 	@Autowired
 	MatchDetailsDao matchDetailsDao;
 	
+	@Autowired
+	BidderDao bidderDao;
+	
 	int addMatch;
+	
+	//email validation
+	public void registerUser(Bidder bidder) {
+		bidderDao.save(bidder);
+	}
       
 	
 	public void manageTournament(Admin admin) {
@@ -73,9 +84,8 @@ public class AdminService {
 		return false;
 	}
 	
-	public void viewBidder(Admin admin) {
-		BiddingDetails biddingDetails = new BiddingDetails(1, 1, "team 1");
-		biddingDetailsDao.save(biddingDetails);
+	public Bidder viewBidder(int id) {
+		return bidderDao.findById(id).get();
 	}
 	
 	
