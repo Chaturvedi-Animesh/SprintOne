@@ -52,9 +52,12 @@ public class BidderService {
 		List<Bidder> bidderList=bidderDao.findAll();
 			
 		for(Bidder bidder:bidderList) {
-			if(bidder.getEmail().equals(email) && bidder.getPassword().equals(password)){
-				return true;
+			if(!email.isEmpty() & !password.isEmpty()) {
+				if(bidder.getEmail().equals(email) && bidder.getPassword().equals(password)){
+					return true;
+				}
 			}
+			
 		}
 		return false;
 	}
