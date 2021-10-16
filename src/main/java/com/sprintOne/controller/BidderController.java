@@ -29,6 +29,23 @@ public class BidderController {
 	BidderService bidderService;
 	
 	
+	@PostMapping("/register")
+	public ResponseEntity<String> registerBidder(@RequestBody Bidder bidder, int bidderId) {
+		boolean registerBidder = bidderService.registerBidder(bidder, bidderId);
+		if(registerBidder == false) {
+			return new ResponseEntity("User not registered",HttpStatus.BAD_REQUEST);
+		}else
+			return new ResponseEntity<>("Registration Successfull!", HttpStatus.OK);
+	}
+	
+	@GetMapping("/login/{email}/{password}")
+	public ResponseEntity<String> loginBidder(@PathVariable String email, @PathVariable String password) {
+		if(bidderService.loginBidder(email, password) == false) {
+			return new ResponseEntity("Login not successfull",HttpStatus.BAD_REQUEST);
+		}else 
+			
+			return new ResponseEntity<>("Login Successfull!", HttpStatus.OK);
+	}
 	
 	@GetMapping("/bidderLeaderBoard/{bidderId}")
 	public ResponseEntity<List<Leaderboard>> viewLeaderboard(@PathVariable int bidderId){
