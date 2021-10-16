@@ -22,7 +22,7 @@ import com.sprintOne.model.MatchDetails;
 import com.sprintOne.model.TeamDetails;
 import com.sprintOne.model.TeamPointsTable;
 
-@Service
+@Service("bidderService")
 public class BidderService {
 	
 	@Autowired
@@ -89,10 +89,8 @@ public class BidderService {
     	return list.stream().sorted(Comparator.comparingInt(TeamPointsTable :: getPoints)).collect(Collectors.toList()); 
     }
     
-    public List<Leaderboard> viewLeaderboard(int bidderId){
-    	
-    	
-    List list= leaderboardDao.findAll().stream().sorted(Comparator.comparingInt(Leaderboard :: getBidderpoints)).limit(3).collect(Collectors.toList());
+    public List<Leaderboard> viewLeaderboard(int bidderId){	
+    List<Leaderboard> list= leaderboardDao.findAll().stream().sorted(Comparator.comparingInt(Leaderboard :: getBidderpoints)).limit(3).collect(Collectors.toList());
     list.add(leaderboardDao.getById(bidderId));
     return list;
     }
