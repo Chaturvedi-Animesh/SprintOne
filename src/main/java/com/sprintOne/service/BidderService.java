@@ -38,18 +38,26 @@ public class BidderService {
 	@Autowired
 	BiddingDetailsDao biddingDetailsDao;
 	
-	public void registerBidder(Bidder bidder) {
-		
-	bidderDao.save(bidder);
+	public boolean registerBidder(Bidder bidder, int bidderId) {
+		Optional<Bidder> bidderList = bidderDao.findById(bidderId);
+		if(bidderList.isPresent()) {
+			return false;
+		}else {
+			bidderDao.save(bidder);
+			return true;
+		}
 	}
 	
 	public boolean loginBidder(String email, String password) {
 		List<Bidder> bidderList=bidderDao.findAll();
 			
 		for(Bidder bidder:bidderList) {
-			if(bidder.getEmail().equals(email) && bidder.getPassword().equals(password)){
-				return true;
+			if(!email.isEmpty() & !password.isEmpty()) {
+				if(bidder.getEmail().equals(email) && bidder.getPassword().equals(password)){
+					return true;
+				}
 			}
+			
 		}
 		return false;
 	}
