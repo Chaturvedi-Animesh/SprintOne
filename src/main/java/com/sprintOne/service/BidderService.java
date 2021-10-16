@@ -38,9 +38,14 @@ public class BidderService {
 	@Autowired
 	BiddingDetailsDao biddingDetailsDao;
 	
-	public void registerBidder(Bidder bidder) {
-		
-	bidderDao.save(bidder);
+	public boolean registerBidder(Bidder bidder, int bidderId) {
+		Optional<Bidder> bidderList = bidderDao.findById(bidderId);
+		if(bidderList.isPresent()) {
+			return false;
+		}else {
+			bidderDao.save(bidder);
+			return true;
+		}
 	}
 	
 	public boolean loginBidder(String email, String password) {
