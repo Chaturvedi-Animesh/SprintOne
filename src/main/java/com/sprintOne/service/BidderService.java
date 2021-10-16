@@ -1,5 +1,6 @@
 package com.sprintOne.service;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 
 import java.util.List;
@@ -74,8 +75,23 @@ public class BidderService {
 		return null;
 	}
 	
-	public void changeTeam(TeamDetails teamdetails) {
-		
+	public String changeTeam(TeamDetails teamdetails) {
+		MatchDetails md = new MatchDetails();
+		if(md.getStatus().equals("Match started")) {
+			return "Not possible to change the team";
+		}
+		else {
+			List<TeamDetails> list = teamDetailsDao.findAll();
+			for(TeamDetails t : list) {
+				if(t.getTeamId() == teamdetails.getTeamId()) {
+					t.setTeamName(teamdetails.getTeamName());
+					t.setTeamPlayers(teamdetails.getTeamPlayers());
+					t.setHomeGround(teamdetails.getHomeGround());
+					t.setCaptain(teamdetails.getCaptain());
+				}
+			}
+			return "Team successfully changed";
+		}		
 	}
 	
     public void bid(BiddingDetails biddingDetails) {

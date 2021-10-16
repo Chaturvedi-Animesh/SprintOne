@@ -5,17 +5,21 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sprintOne.model.Bidder;
 import com.sprintOne.model.Leaderboard;
+import com.sprintOne.model.MatchDetails;
 import com.sprintOne.model.TeamDetails;
 import com.sprintOne.model.TeamPointsTable;
+import com.sprintOne.service.AdminService;
 import com.sprintOne.service.BidderService;
 
 @RestController
@@ -56,7 +60,16 @@ public class BidderController {
 			return new ResponseEntity("Team Details not available", HttpStatus.BAD_REQUEST);
 		}
 		else
-			return new ResponseEntity<>(td, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(td, HttpStatus.OK);
 	}
 	
+	@PutMapping("/changeTeam")
+	public ResponseEntity<TeamDetails> changeTeam(@RequestBody TeamDetails teamdetails){
+		String str = bidderService.changeTeam(teamdetails);
+		if(str == null) {
+			return new ResponseEntity("Team Details not available", HttpStatus.BAD_REQUEST);
+		}
+		else
+			return new ResponseEntity(str, HttpStatus.OK);
+	}
 }
