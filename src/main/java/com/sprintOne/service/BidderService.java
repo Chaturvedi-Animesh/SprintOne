@@ -85,8 +85,8 @@ public class BidderService {
 		return false;
 	}
    
-    public List<TeamPointsTable> viewPointsTable(List<TeamPointsTable> list){
-    	return list.stream().sorted(Comparator.comparingInt(TeamPointsTable :: getPoints)).collect(Collectors.toList()); 
+    public List<TeamPointsTable> viewPointsTable(){
+    	return teamPointsTableDao.findAll().stream().sorted(Comparator.comparingInt(TeamPointsTable :: getPoints)).collect(Collectors.toList()); 
     }
     
     public List<Leaderboard> viewLeaderboard(int bidderId){	
