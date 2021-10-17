@@ -113,15 +113,14 @@ public class AdminService {
 	}
 	
 	
-	public boolean commenceTournament(int tournamentId) {
-		List<Tournament> tournament1 = tournamentDao.findAll();
-		for(Tournament t :tournament1) {
-			if(t.getTournamentId() == tournamentId) {
-				tournament1.remove(tournamentId);
-				return true;        
-				}
-			}
-		return false;
+	public boolean commenceTournament(Tournament tournament) {
+		if(tournament.getNumberOfTeams()!=8)
+			return false;
+		if(tournamentDao.findById(tournament.getTournamentId()).isPresent())
+			return false;
+		tournamentDao.save(tournament);
+		return true;
+		
 	}
 	
 	

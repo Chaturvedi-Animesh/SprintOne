@@ -54,9 +54,14 @@ public class AdminController {
 		return this.adminService.rescheduleMatches(matchId);
 	}
 	
-	@PostMapping(value = "/commence/tournament/{tournamentId}")
-	public boolean commenceTournament(@PathVariable int tournamentId) {
-		return this.adminService.commenceTournament(tournamentId);
+	@PostMapping(value = "/commence/tournament}")
+	public ResponseEntity commenceTournament(@RequestBody Tournament tournament) {
+		boolean flag=adminService.commenceTournament(tournament);
+		if(flag) {
+			return new ResponseEntity("Tournament Commenced",HttpStatus.ACCEPTED);
+		}
+		
+		return new ResponseEntity("Cannot Commence Tornament",HttpStatus.BAD_REQUEST);
 	}
 	
 	@PostMapping(value = "/manage/tournament/{tournamentId}")
