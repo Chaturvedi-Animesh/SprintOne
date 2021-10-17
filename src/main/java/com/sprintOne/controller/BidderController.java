@@ -45,9 +45,10 @@ public class BidderController {
 	public ResponseEntity<String> loginBidder(@PathVariable String email,@PathVariable String password,HttpServletResponse response) throws IOException {
 		if(bidderService.loginBidder(email, password) == false) {
 			return new ResponseEntity("Login not successfull",HttpStatus.BAD_REQUEST);
-		}else 
+		}else {
 			response.sendRedirect("/system/stats");
 			return new ResponseEntity<>("Login Successfull!", HttpStatus.OK);
+		}
 	}
 	
 	@GetMapping("/bidderLeaderBoard/{bidderId}")
