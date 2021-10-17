@@ -83,7 +83,7 @@ public class BidderController {
 	}
 	
 	@PutMapping("/changeTeam")
-	public ResponseEntity<TeamDetails> changeTeam(@RequestBody TeamDetails teamdetails){
+	public ResponseEntity<String> changeTeam(@RequestBody TeamDetails teamdetails){
 		String str = bidderService.changeTeam(teamdetails);
 		if(str == null) {
 			return new ResponseEntity("Team Details not available", HttpStatus.BAD_REQUEST);
