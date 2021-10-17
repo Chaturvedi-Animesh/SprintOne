@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sprintOne.model.Admin;
 import com.sprintOne.model.Bidder;
 import com.sprintOne.model.MatchDetails;
+import com.sprintOne.model.MatchSchedule;
 import com.sprintOne.model.TeamDetails;
 import com.sprintOne.model.Tournament;
 import com.sprintOne.service.AdminService;
@@ -30,6 +31,7 @@ public class AdminController {
 
 	@Autowired
 	AdminService adminService;
+	
 	
 	@GetMapping("/bidder/{id}")
 	public ResponseEntity<Bidder> getBidder(@RequestParam int id) {
@@ -65,6 +67,12 @@ public class AdminController {
     @PostMapping(value = "/manage/teams/{teamId}")
     public boolean manageTeams(@PathVariable int teamId) {
     	return this.manageTeams(teamId);
+    }
+    
+    @PostMapping
+    public ResponseEntity scheduleMatch(@RequestBody MatchSchedule details) {
+    	adminService.scheduleMatches(details);
+    	return new ResponseEntity("Match Scheduled",HttpStatus.OK);
     }
     
     

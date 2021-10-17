@@ -39,9 +39,10 @@ public class BidderService {
 	@Autowired
 	BiddingDetailsDao biddingDetailsDao;
 	
-	public boolean registerBidder(Bidder bidder, int bidderId) {
-		Optional<Bidder> bidderList = bidderDao.findById(bidderId);
-		if(bidderList.isPresent()) {
+	public boolean registerBidder(Bidder bidder) {
+		Optional<Bidder> bidderList = bidderDao.findById(bidder.getUserID());
+		List emailList=bidderDao.findAll().stream().map(bidders->bidders.getEmail()).toList();
+		if(bidderList.isPresent() || emailList.contains(bidder.getEmail())) {
 			return false;
 		}else {
 			bidderDao.save(bidder);
@@ -75,23 +76,31 @@ public class BidderService {
 		return null;
 	}
 	
-	public String changeTeam(TeamDetails teamdetails) {
-		MatchDetails md = new MatchDetails();
-		if(md.getStatus().equals("Match started")) {
-			return "Not possible to change the team";
+	public String changeTeam(BiddingDetails biddingDetails) {
+		int matchid=biddingDetails.getMatchId();
+		MatchDetails matchDetails= matchDetailsDao.getById(matchid);
+		if(matchDetails.getStatus()=="Started") {
+			return "Cannot Change Team";
 		}
-		else {
-			List<TeamDetails> list = teamDetailsDao.findAll();
-			for(TeamDetails t : list) {
-				if(t.getTeamId() == teamdetails.getTeamId()) {
-					t.setTeamName(teamdetails.getTeamName());
-					t.setTeamPlayers(teamdetails.getTeamPlayers());
-					t.setHomeGround(teamdetails.getHomeGround());
-					t.setCaptain(teamdetails.getCaptain());
-				}
-			}
-			return "Team successfully changed";
-		}		
+		
+		
+		
+//		MatchDetails md = new MatchDetails();
+//		if(md.getStatus().equals("Match started")) {
+//			return "Not possible to change the team";
+//		}
+//		else {
+//			List<TeamDetails> list = teamDetailsDao.findAll();
+//			for(TeamDetails t : list) {
+//				if(t.getTeamId() == teamdetails.getTeamId()) {
+//					t.setTeamName(teamdetails.getTeamName());
+//					t.setTeamPlayers(teamdetails.getTeamPlayers());
+//					t.setHomeGround(teamdetails.getHomeGround());
+//					t.setCaptain(teamdetails.getCaptain());
+//				}
+//			}
+//			return "Team successfully changed";
+//		}		
 	}
 	
     public void bid(BiddingDetails biddingDetails) {

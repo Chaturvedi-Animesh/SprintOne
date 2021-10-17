@@ -32,10 +32,10 @@ public class BidderController {
 	
 	
 	@PostMapping("/register")
-	public ResponseEntity<String> registerBidder(@RequestBody Bidder bidder, int bidderId) {
-		boolean registerBidder = bidderService.registerBidder(bidder, bidderId);
+	public ResponseEntity<String> registerBidder(@RequestBody Bidder bidder) {
+		boolean registerBidder = bidderService.registerBidder(bidder);
 		if(registerBidder == false) {
-			return new ResponseEntity("User not registered",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity("User Already Present",HttpStatus.BAD_REQUEST);
 		}else
 			return new ResponseEntity<>("Registration Successfull!", HttpStatus.OK);
 	}
@@ -43,8 +43,11 @@ public class BidderController {
 	
 	@GetMapping("/login/{email}/{password}")
 	public ResponseEntity<String> loginBidder(@PathVariable String email,@PathVariable String password,HttpServletResponse response) throws IOException {
+		if(email==null||password==null) {
+			return new ResponseEntity("Inavalid username and password",HttpStatus.BAD_REQUEST);
+		}
 		if(bidderService.loginBidder(email, password) == false) {
-			return new ResponseEntity("Login not successfull",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity("Inavalid username and password",HttpStatus.BAD_REQUEST);
 		}else {
 			response.sendRedirect("/system/stats");
 			return new ResponseEntity<>("Login Successfull!", HttpStatus.OK);

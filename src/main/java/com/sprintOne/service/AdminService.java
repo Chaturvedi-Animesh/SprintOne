@@ -64,11 +64,10 @@ public class AdminService {
 	}
 	
 	
-	/*public void scheduleMatches(Admin admin) {
-		MatchSchedule matchSchedule = new MatchSchedule(1,"team 1","team 2", new Date(2021,02,03), LocalTime.of(20, 10), LocalTime.of(23, 10), "team 1");
-		matchScheduleDao.save(matchSchedule);
+	public void scheduleMatches(MatchSchedule details) {
+		matchScheduleDao.save(details);
 		
-	}*/
+	}
 	
 	public boolean rescheduleMatches(int matchId) {
 		List<MatchDetails> md = matchDetailsDao.findAll();
