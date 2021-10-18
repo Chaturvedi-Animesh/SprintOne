@@ -2,6 +2,7 @@ package com.sprintOne.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sprintOne.model.Bidder;
@@ -42,15 +44,16 @@ public class BidderController {
 	}
 
 	
-	@GetMapping("/login/{email}/{password}")
-	public ResponseEntity<String> loginBidder(@PathVariable String email,@PathVariable String password,HttpServletResponse response) throws IOException {
+	@GetMapping("/login")
+	public ResponseEntity<String> loginBidder(@RequestParam Map<String, String> userpass) throws IOException {
+		String email=userpass.get("email");
+		String password=userpass.get("password");
 		if(email==null||password==null) {
 			return new ResponseEntity("Inavalid username and password",HttpStatus.BAD_REQUEST);
 		}
 		if(bidderService.loginBidder(email, password) == false) {
 			return new ResponseEntity("Inavalid username and password",HttpStatus.BAD_REQUEST);
 		}else {
-			response.sendRedirect("/system/stats");
 			return new ResponseEntity<>("Login Successfull!", HttpStatus.OK);
 		}
 	}
@@ -59,7 +62,7 @@ public class BidderController {
 	public ResponseEntity<List<Leaderboard>> viewLeaderboard(@PathVariable int bidderId){
 		List<Leaderboard> leadList = bidderService.viewLeaderboard(bidderId);
 		if(leadList==null) {
-			return new ResponseEntity("LeaderBoard is empty", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity("Bidder LeaderBoard is empty", HttpStatus.BAD_REQUEST);
 		}
 		else
 			return new ResponseEntity<>(leadList, HttpStatus.OK);
@@ -69,7 +72,7 @@ public class BidderController {
 	@GetMapping("/teamLeaderBoard")
 	public ResponseEntity<List<TeamPointsTable>> viewPointsTable(){
 		List<TeamPointsTable> teamList = bidderService.viewPointsTable();
-		if(teamList == null) {
+		if(teamList.size() == 0) {
 			return new ResponseEntity("Team LeaderBoard is empty", HttpStatus.BAD_REQUEST);
 		}
 		else
