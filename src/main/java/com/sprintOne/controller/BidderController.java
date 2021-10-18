@@ -50,15 +50,16 @@ public class BidderController {
 		if(bidderService.loginBidder(email, password) == false) {
 			return new ResponseEntity("Inavalid username and password",HttpStatus.BAD_REQUEST);
 		}else {
-			response.sendRedirect("/system/stats");
+			response.sendRedirect("/stats");
 			return new ResponseEntity<>("Login Successfull!", HttpStatus.OK);
 		}
+		
 	}
 	
 	@GetMapping("/bidderLeaderBoard/{bidderId}")
 	public ResponseEntity<List<Leaderboard>> viewLeaderboard(@PathVariable int bidderId){
-		List<Leaderboard> leadList = bidderService.viewLeaderboard(bidderId);
-		if(leadList==null) {
+	    List<Leaderboard> leadList = bidderService.viewLeaderboard(bidderId);
+		if(leadList.isEmpty()) {
 			return new ResponseEntity("LeaderBoard is empty", HttpStatus.BAD_REQUEST);
 		}
 		else
@@ -69,7 +70,7 @@ public class BidderController {
 	@GetMapping("/teamLeaderBoard")
 	public ResponseEntity<List<TeamPointsTable>> viewPointsTable(){
 		List<TeamPointsTable> teamList = bidderService.viewPointsTable();
-		if(teamList == null) {
+		if(teamList.isEmpty()) {
 			return new ResponseEntity("Team LeaderBoard is empty", HttpStatus.BAD_REQUEST);
 		}
 		else
