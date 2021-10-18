@@ -19,14 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sprintOne.model.Admin;
 import com.sprintOne.model.Bidder;
 import com.sprintOne.model.MatchDetails;
-import com.sprintOne.model.MatchSchedule;
 import com.sprintOne.model.TeamDetails;
 import com.sprintOne.model.Tournament;
 import com.sprintOne.service.AdminService;
+import com.sprintOne.model.MatchSchedule;
 
 
 @RestController(value = "/admin")
-
 public class AdminController {
 
 	@Autowired
@@ -54,7 +53,7 @@ public class AdminController {
 		return this.adminService.rescheduleMatches(matchId);
 	}
 	
-	@PostMapping(value = "/commence/tournament}")
+	@PostMapping(value = "/commence/tournament")
 	public ResponseEntity commenceTournament(@RequestBody Tournament tournament) {
 		boolean flag=adminService.commenceTournament(tournament);
 		if(flag) {
@@ -69,15 +68,27 @@ public class AdminController {
 //		return this.adminService.commenceTournament(tournamentId);
 //	}
 	
-    @PostMapping(value = "/manage/teams/{teamId}")
-    public boolean manageTeams(@PathVariable int teamId) {
-    	return this.manageTeams(teamId);
+//    @PostMapping(value = "/manage/teams/{teamId}")
+//    public boolean manageTeams(@PathVariable int teamId) {
+//    	return this.manageTeams(teamId);
+//    }
+    
+    @PostMapping(value="/schedule/match")
+    public ResponseEntity scheduleMatch(@RequestBody MatchDetails details) {
+    	boolean flag=adminService.scheduleMatches(details);
+    	if(flag)
+    	return new ResponseEntity("Match Scheduled",HttpStatus.OK);
+    	else
+    		return new ResponseEntity("Match Cannot be Scheduled",HttpStatus.BAD_REQUEST);
     }
     
-    @PostMapping
-    public ResponseEntity scheduleMatch(@RequestBody MatchSchedule details) {
-    	adminService.scheduleMatches(details);
-    	return new ResponseEntity("Match Scheduled",HttpStatus.OK);
+    @PostMapping(value="/add/team")
+    public ResponseEntity addTeam(@RequestBody TeamDetails details) {
+    	boolean flag=adminService.addTeam(details);
+    	if(flag)
+    		return new ResponseEntity("Team added",HttpStatus.OK);
+    	else
+    		return new ResponseEntity("Unable to add Team",HttpStatus.BAD_REQUEST);
     }
     
     

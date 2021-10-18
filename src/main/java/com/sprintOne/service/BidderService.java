@@ -46,6 +46,8 @@ public class BidderService {
 			return false;
 		}else {
 			bidderDao.save(bidder);
+			Leaderboard leaderboard=new Leaderboard(bidder.getUserID(), bidder.getName(), 0, 0, 0, 0);
+			leaderboardDao.save(leaderboard);
 			return true;
 		}
 	}

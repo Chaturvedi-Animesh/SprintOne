@@ -1,3 +1,4 @@
+
 package com.sprintOne.model;
 
 import java.time.LocalTime;
