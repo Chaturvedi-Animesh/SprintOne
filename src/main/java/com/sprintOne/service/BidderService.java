@@ -45,6 +45,7 @@ public class BidderService {
 		if(bidderList.isPresent() || emailList.contains(bidder.getEmail())) {
 			return false;
 		}else {
+			bidder.setPoints(0);
 			bidderDao.save(bidder);
 			Leaderboard leaderboard=new Leaderboard(bidder.getUserID(), bidder.getName(), 0, 0, 0, 0);
 			leaderboardDao.save(leaderboard);
