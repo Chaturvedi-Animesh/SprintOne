@@ -3,51 +3,33 @@ package com.sprintOne.model;
 import java.time.LocalTime;
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "Match_Details")
 public class MatchDetails {
 
 	@Id
-	@Column(name = "match_id")
 	private int matchId;
-	@OneToOne
-    @JoinColumn(name = "team_name")
-	@Column(name = "team_one")
-	private TeamDetails teamOne;
-	@OneToOne
-    @JoinColumn(name = "team_name")
-	@Column(name = "team_two")
-	private TeamDetails teamTwo;
-	@Column(name = "match_date")
+	private int teamOneId;
+	private int teamTwoId;
 	private Date matchDate;
-	@Column(name = "match_time")
 	private LocalTime matchTime = LocalTime.now();
-	@Column(name = "match_stadium")
 	private String matchStadium;
-	@Column(name = "winner")
 	private String winner;
-	@Column(name = "status")
 	private String status;
-	@Column(name = "delay")
 	private String delay;
 	
 	public MatchDetails() {
 		
 	}
 
-	public MatchDetails(int matchId, TeamDetails teamOne, TeamDetails teamTwo, Date matchDate, LocalTime matchTime,
+	public MatchDetails(int matchId, int teamOne, int teamTwo, Date matchDate, LocalTime matchTime,
 			String matchStadium, String winner, String status, String delay) {
 		super();
 		this.matchId = matchId;
-		this.teamOne = teamOne;
-		this.teamTwo = teamTwo;
+		this.teamOneId = teamOne;
+		this.teamTwoId = teamTwo;
 		this.matchDate = matchDate;
 		this.matchTime = matchTime;
 		this.matchStadium = matchStadium;
@@ -64,20 +46,20 @@ public class MatchDetails {
 		this.matchId = matchId;
 	}
 
-	public TeamDetails getTeamOne() {
-		return teamOne;
+	public int getTeamOneId() {
+		return teamOneId;
 	}
 
-	public void setTeamOne(TeamDetails teamOne) {
-		this.teamOne = teamOne;
+	public void setTeamOneId(int teamOne) {
+		this.teamOneId = teamOne;
 	}
 
-	public TeamDetails getTeamTwo() {
-		return teamTwo;
+	public int getTeamTwoId() {
+		return teamTwoId;
 	}
 
-	public void setTeamTwo(TeamDetails teamTwo) {
-		this.teamTwo = teamTwo;
+	public void setTeamTwo(int teamTwo) {
+		this.teamTwoId = teamTwo;
 	}
 
 	public Date getMatchDate() {

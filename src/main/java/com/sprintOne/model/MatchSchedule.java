@@ -3,41 +3,27 @@ package com.sprintOne.model;
 import java.time.LocalTime;
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "Match_Schedule")
 public class MatchSchedule {
 	@Id
-	@Column(name = "match_id")
 	private int matchId;
-	@OneToOne
-    @JoinColumn(name = "team_id")
-	@Column(name = "team_one_id")
-	private TeamDetails teamOneId;
-	@OneToOne
-    @JoinColumn(name = "team_id")
-	@Column(name = "team_two_id")
-	private TeamDetails teamTwoId;
-	@Column(name = "match_date")
+	private int teamOneId;
+	private int teamTwoId;
 	private Date matchDate;
-	@Column(name = "start_time")
-	private LocalTime startTime = LocalTime.now();
-	@Column(name = "end_time")
-	private LocalTime endTime = LocalTime.now();
-	@Column(name = "result")
+	private LocalTime startTime;
+	private LocalTime endTime;
 	private String result;
 	
 	public MatchSchedule() {
 		
 	}
 
-	public MatchSchedule(int matchId, TeamDetails teamOneId, TeamDetails teamTwoId, Date matchDate,
+	public MatchSchedule(int matchId, int teamOneId, int teamTwoId, Date matchDate,
 			LocalTime startTime, LocalTime endTime, String result) {
 		super();
 		this.matchId = matchId;
@@ -57,19 +43,19 @@ public class MatchSchedule {
 		this.matchId = matchId;
 	}
 
-	public TeamDetails getTeamOneId() {
+	public int getTeamOneId() {
 		return teamOneId;
 	}
 
-	public void setTeamOneId(TeamDetails teamOneId) {
+	public void setTeamOneId(int teamOneId) {
 		this.teamOneId = teamOneId;
 	}
 
-	public TeamDetails getTeamTwoId() {
+	public int getTeamTwoId() {
 		return teamTwoId;
 	}
 
-	public void setTeamTwoId(TeamDetails teamTwoId) {
+	public void setTeamTwoId(int teamTwoId) {
 		this.teamTwoId = teamTwoId;
 	}
 

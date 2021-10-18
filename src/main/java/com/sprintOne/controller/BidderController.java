@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +25,7 @@ import com.sprintOne.model.TeamPointsTable;
 import com.sprintOne.service.BidderService;
 
 @RestController
-@RequestMapping("/bidder")
+@RequestMapping(value="/bidder")
 public class BidderController {
 
 	@Autowired
@@ -86,13 +87,13 @@ public class BidderController {
 			return new ResponseEntity<>(td, HttpStatus.OK);
 	}
 	
-	@PutMapping("/changeTeam")
-	public ResponseEntity<String> changeTeam(@RequestBody TeamDetails teamdetails){
-		String str = bidderService.changeTeam(teamdetails);
-		if(str == null) {
-			return new ResponseEntity("Team Details not available", HttpStatus.BAD_REQUEST);
-		}
-		else
-			return new ResponseEntity(str, HttpStatus.OK);
-	}
+//	@PutMapping("/changeTeam")
+//	public ResponseEntity<String> changeTeam(@RequestBody TeamDetails teamdetails){
+//		String str = bidderService.changeTeam(teamdetails);
+//		if(str == null) {
+//			return new ResponseEntity("Team Details not available", HttpStatus.BAD_REQUEST);
+//		}
+//		else
+//			return new ResponseEntity(str, HttpStatus.OK);
+//	}
 }

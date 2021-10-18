@@ -64,10 +64,10 @@ public class AdminController {
 		return new ResponseEntity("Cannot Commence Tornament",HttpStatus.BAD_REQUEST);
 	}
 	
-	@PostMapping(value = "/manage/tournament/{tournamentId}")
-	public boolean manageTournament(@PathVariable int tournamentId) {
-		return this.adminService.commenceTournament(tournamentId);
-	}
+//	@PostMapping(value = "/manage/tournament/{tournamentId}")
+//	public boolean manageTournament(@PathVariable int tournamentId) {
+//		return this.adminService.commenceTournament(tournamentId);
+//	}
 	
     @PostMapping(value = "/manage/teams/{teamId}")
     public boolean manageTeams(@PathVariable int teamId) {

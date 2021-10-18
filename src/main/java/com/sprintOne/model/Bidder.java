@@ -1,10 +1,7 @@
 package com.sprintOne.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 @Entity
 public class Bidder {
@@ -12,14 +9,12 @@ public class Bidder {
 	@Id
 	private int userID;
 	
-	@OneToOne(mappedBy = "Bidder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private String name;
 	
 	private String email;
 	private String password;
 	private String mobile;
 	
-	@OneToOne(mappedBy = "Bidder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private int points;
 	
 	public Bidder() {

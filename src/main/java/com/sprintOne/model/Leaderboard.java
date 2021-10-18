@@ -1,10 +1,7 @@
 package com.sprintOne.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -13,37 +10,27 @@ import javax.persistence.Table;
 public class Leaderboard {
 	
 	@Id
-	@Column(name = "bidder_id")
 	private int bidderId;
 	
-	@OneToOne
-	@JoinColumn(name = "name")
-	@Column(name = "bidder_name")
 	private String biddername;
-	
-	@OneToOne
-	@JoinColumn(name = "points")
-	@Column(name = "bidder_points")
+
 	private int bidderpoints;
 	
-	@JoinColumn(name = "number_of_teams")
-	@Column(name = "bids_participated")
-	private Tournament bidsparticipated;
 	
-	@JoinColumn(name = "matches_won")
-	@Column(name = "bids_won")
-	private TeamPointsTable bidswon;
+	private int bidsparticipated;
 	
-	@JoinColumn(name = "matches_played")
-	@Column(name = "percentile")
-	private TeamPointsTable percentile;
+	
+	private int bidswon;
+	
+	
+	private double percentile;
 	
 	public Leaderboard() {
 		
 	}
 
-	public Leaderboard(int bidderId, String biddername, int bidderpoints, Tournament bidsparticipated,
-			TeamPointsTable bidswon, TeamPointsTable percentile) {
+	public Leaderboard(int bidderId, String biddername, int bidderpoints, int bidsparticipated,
+			int bidswon, double percentile) {
 		super();
 		this.bidderId = bidderId;
 		this.biddername = biddername;
@@ -77,28 +64,31 @@ public class Leaderboard {
 		this.bidderpoints = bidderpoints;
 	}
 
-	public Tournament getBidsparticipated() {
+	public int getBidsparticipated() {
 		return bidsparticipated;
 	}
 
-	public void setBidsparticipated(Tournament bidsparticipated) {
+	public void setBidsparticipated(int bidsparticipated) {
 		this.bidsparticipated = bidsparticipated;
 	}
 
-	public TeamPointsTable getBidswon() {
+	public int getBidswon() {
 		return bidswon;
 	}
 
-	public void setBidswon(TeamPointsTable bidswon) {
+	public void setBidswon(int bidswon) {
 		this.bidswon = bidswon;
 	}
 
-	public TeamPointsTable getPercentile() {
+	public double getPercentile() {
 		return percentile;
 	}
 
-	public void setPercentile(TeamPointsTable percentile) {
-		this.percentile = percentile;
+	public void setPercentile() {
+		if(this.bidsparticipated!=0 && this.bidswon!=0)
+		this.percentile=((this.bidsparticipated-this.bidswon)/this.bidsparticipated)*100;
+		else
+			this.percentile=0.0;
 	}
 
 	

@@ -76,12 +76,12 @@ public class BidderService {
 		return null;
 	}
 	
-	public String changeTeam(BiddingDetails biddingDetails) {
-		int matchid=biddingDetails.getMatchId();
-		MatchDetails matchDetails= matchDetailsDao.getById(matchid);
-		if(matchDetails.getStatus()=="Started") {
-			return "Cannot Change Team";
-		}
+//	public String changeTeam(BiddingDetails biddingDetails) {
+//		int matchid=biddingDetails.getMatchId();
+//		MatchDetails matchDetails= matchDetailsDao.getById(matchid);
+//		if(matchDetails.getStatus()=="Started") {
+//			return "Cannot Change Team";
+//		}
 		
 		
 		
@@ -101,7 +101,7 @@ public class BidderService {
 //			}
 //			return "Team successfully changed";
 //		}		
-	}
+//	}
 	
     public void bid(BiddingDetails biddingDetails) {
 		biddingDetailsDao.save(biddingDetails);

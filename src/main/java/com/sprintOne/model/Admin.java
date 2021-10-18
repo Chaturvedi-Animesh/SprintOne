@@ -8,13 +8,10 @@ import javax.persistence.Id;
 public class Admin {
 	
 	@Id
-	@Column(name = "admin_id")
 	private int adminId;
 	
-	@Column(name = "username")
 	private String username;
 	
-	@Column(name = "password")
 	private String password;
 	
 	public Admin(){	

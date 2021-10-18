@@ -1,24 +1,14 @@
 package com.sprintOne.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 
 @Entity
 public class BiddingDetails {
 
 	@Id
-	@Column(name = "user_id")
 	private int userId;
-	
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "match_id")
 	private int matchId;
-	
-	@Column(name = "user_opinion")
 	private String userOpinion;
 	
 	public BiddingDetails() {
