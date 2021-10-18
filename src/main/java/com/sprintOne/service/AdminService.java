@@ -13,14 +13,12 @@ import com.sprintOne.dao.AdminDao;
 import com.sprintOne.dao.BidderDao;
 import com.sprintOne.dao.BiddingDetailsDao;
 import com.sprintOne.dao.MatchDetailsDao;
-import com.sprintOne.dao.MatchScheduleDao;
 import com.sprintOne.dao.TeamDetailsDao;
 import com.sprintOne.dao.TournamentDao;
 import com.sprintOne.model.Admin;
 import com.sprintOne.model.Bidder;
 import com.sprintOne.model.BiddingDetails;
 import com.sprintOne.model.MatchDetails;
-import com.sprintOne.model.MatchSchedule;
 import com.sprintOne.model.TeamDetails;
 import com.sprintOne.model.Tournament;
 
@@ -29,8 +27,6 @@ public class AdminService {
 	@Autowired
 	TournamentDao tournamentDao;
 	
-	@Autowired
-	MatchScheduleDao matchScheduleDao;
 	
 	@Autowired
 	TeamDetailsDao teamDetailsDao;
@@ -53,6 +49,14 @@ public class AdminService {
 	public void registerUser(Bidder bidder) {
 		bidderDao.save(bidder);
 	}
+	
+	public boolean addTeam(TeamDetails teamDetails) {
+		if(teamDetails.getTeamPlayers().length!=4)
+			return false;
+		else {
+		teamDetailsDao.save(teamDetails);
+		return true;
+	}}
       
 	public boolean manageTournament(Admin admin, int tournamentId) {
 		Optional<Admin> adminList = adminDao.findById(tournamentId);
@@ -65,9 +69,16 @@ public class AdminService {
 	}
 	
 	
-	public void scheduleMatches(MatchSchedule details) {
-		matchScheduleDao.save(details);
+	public boolean scheduleMatches(MatchDetails details) {
+		int teamOneId=details.getTeamOneId();
+		int teamTwoId=details.getTeamTwoId();
 		
+		if(teamDetailsDao.findById(teamOneId)!=null && teamDetailsDao.findById(teamTwoId)!=null) {
+		matchDetailsDao.save(details);
+		return true;
+		}
+		else
+			return false;
 	}
 	
 	public boolean rescheduleMatches(int matchId) {

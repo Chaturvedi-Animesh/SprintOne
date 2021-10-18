@@ -1,23 +1,26 @@
 package com.sprintOne.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class TeamDetails {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int teamId;
 	private String teamName;
 	private String homeGround;
-	private String teamPlayers;
+	private String[] teamPlayers;
 	private String captain;
 	
 	public TeamDetails() {
 		
 	}
 	
-	public TeamDetails(int teamId, String teamName, String homeGround, String teamPlayers, String captain) {
+	public TeamDetails(int teamId, String teamName, String homeGround, String[] teamPlayers, String captain) {
 		super();
 		this.teamId = teamId;
 		this.teamName = teamName;
@@ -45,10 +48,10 @@ public class TeamDetails {
 	public void setHomeGround(String homeGround){
 		this.homeGround = homeGround;
 	}
-	public String getTeamPlayers() {
+	public String[] getTeamPlayers() {
 		return teamPlayers;
 	}
-	public void setTeamPlayers(String teamPlayers) {
+	public void setTeamPlayers(String[] teamPlayers) {
 		this.teamPlayers = teamPlayers;
 	}
 	public String getCaptain() {

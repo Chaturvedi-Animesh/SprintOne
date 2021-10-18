@@ -14,7 +14,7 @@ public class MatchDetails {
 	private int teamOneId;
 	private int teamTwoId;
 	private Date matchDate;
-	private LocalTime matchTime = LocalTime.now();
+	private LocalTime matchTime;
 	private String matchStadium;
 	private String winner;
 	private String status;

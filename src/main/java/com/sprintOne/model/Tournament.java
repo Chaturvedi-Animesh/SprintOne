@@ -1,28 +1,31 @@
 package com.sprintOne.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class Tournament 
 {
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
      private int tournamentId;
      private int numberOfQualifiers;
      private int numberOfTeams;
      private int numberOfMatchesCompleted;
-     private int matchId;
+     //private int matchId;
      public Tournament()
      {
     	 
      }
-     public Tournament(int tournamentId, int numberOfQualifiers, int numberOfTeams,	int numberOfMatchesCompleted, int matchId) {
+     public Tournament(int tournamentId, int numberOfQualifiers, int numberOfTeams,	int numberOfMatchesCompleted) {
 		super();
 		this.tournamentId = tournamentId;
 		this.numberOfQualifiers = numberOfQualifiers;
 		this.numberOfTeams = numberOfTeams;
 		this.numberOfMatchesCompleted = numberOfMatchesCompleted;
-		this.matchId = matchId;
+		//this.matchId = matchId;
 	}
 	public int getTournamentId() {
 		return tournamentId;
@@ -48,12 +51,12 @@ public class Tournament
 	public void setNumberOfMatchesCompleted(int numberOfMatchesCompleted) {
 		this.numberOfMatchesCompleted = numberOfMatchesCompleted;
 	}
-	public int getMatchId() {
-		return matchId;
-	}
-	public void setMatchId(int matchId) {
-		this.matchId = matchId;
-	}
+//	public int getMatchId() {
+//		return matchId;
+//	}
+//	public void setMatchId(int matchId) {
+//		this.matchId = matchId;
+//	}
      
     
      
