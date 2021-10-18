@@ -79,14 +79,17 @@ public class BidderService {
 		return null;
 	}
 	
-//	public String changeTeam(BiddingDetails biddingDetails) {
-//		int matchid=biddingDetails.getMatchId();
-//		MatchDetails matchDetails= matchDetailsDao.getById(matchid);
-//		if(matchDetails.getStatus()=="Started") {
-//			return "Cannot Change Team";
-//		}
-		
-		
+/*	public String changeTeam(BiddingDetails biddingDetails) {
+		int matchid=biddingDetails.getMatchId();
+		MatchDetails matchDetails= matchDetailsDao.getById(matchid);
+		if(matchDetails.getStatus()=="Started") {
+			return "Cannot Change Team";
+		}
+		else {
+			
+		}
+	}	
+*/		
 		
 //		MatchDetails md = new MatchDetails();
 //		if(md.getStatus().equals("Match started")) {
