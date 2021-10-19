@@ -34,13 +34,13 @@ public class AdminController {
 	
 	
 	@GetMapping("/bidder/{id}")
-	public ResponseEntity<Bidder> getBidder(@RequestParam int id) {
+	public ResponseEntity getBidder(@RequestParam int id) {
 		Bidder bidder = adminService.viewBidder(id);
 		if(bidder==null) {
-			return new ResponseEntity("No Such bidder",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity(null,HttpStatus.BAD_REQUEST);
 		}
 		else
-		return new ResponseEntity<>(bidder,HttpStatus.OK);
+		return new ResponseEntity(bidder,HttpStatus.OK);
 		
 	}
 	
@@ -50,77 +50,77 @@ public class AdminController {
 	}
 	
 	@PostMapping(value="/reschedule")
-	public ResponseEntity rescheduleMatches(@RequestParam int matchId) {
+	public ResponseEntity<?> rescheduleMatches(@RequestParam int matchId) {
 		MatchDetails details=adminService.rescheduleMatches(matchId);
 		if(details==null)
-			return new ResponseEntity("unable to reschedule",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Object>("unable to reschedule",HttpStatus.BAD_REQUEST);
 		else
-		return new ResponseEntity(details,HttpStatus.ACCEPTED);
+		return new ResponseEntity<Object>(details,HttpStatus.ACCEPTED);
 	}
 	
 	@PostMapping(value = "/commence/tournament")
-	public ResponseEntity commenceTournament(@RequestBody Tournament tournament) {
+	public ResponseEntity<?> commenceTournament(@RequestBody Tournament tournament) {
 		boolean flag=adminService.commenceTournament(tournament);
 		if(flag) {
-			return new ResponseEntity("Tournament Commenced",HttpStatus.ACCEPTED);
+			return new ResponseEntity<Object>("Tournament Commenced",HttpStatus.ACCEPTED);
 		}
 		
-		return new ResponseEntity("Cannot Commence Tornament",HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<Object>("Cannot Commence Tornament",HttpStatus.BAD_REQUEST);
 	}
 	
 	@PostMapping(value="/result")
-	public ResponseEntity declareResult(@RequestParam Map<String, String> matchresult) {
+	public ResponseEntity<?> declareResult(@RequestParam Map<String, String> matchresult) {
 		
 		adminService.declareResult(matchresult);
 		
 		
-		return new ResponseEntity("Result Declared Succesfully",HttpStatus.OK);
+		return new ResponseEntity<Object>("Result Declared Succesfully",HttpStatus.OK);
 		
 	}
     
     @PostMapping(value="/schedulematch")
-    public ResponseEntity scheduleMatch(@RequestBody MatchDetails details) {
+    public ResponseEntity<?> scheduleMatch(@RequestBody MatchDetails details) {
     	boolean flag=adminService.scheduleMatches(details);
     	if(flag)
-    	return new ResponseEntity("Match Scheduled",HttpStatus.OK);
+    	return new ResponseEntity<Object>("Match Scheduled",HttpStatus.OK);
     	else
-    		return new ResponseEntity("Match Cannot be Scheduled",HttpStatus.BAD_REQUEST);
+    		return new ResponseEntity<Object>("Match Cannot be Scheduled",HttpStatus.BAD_REQUEST);
     }
     
     @PostMapping(value="/add/team")
-    public ResponseEntity addTeam(@RequestBody TeamDetails details) {
+    public ResponseEntity<?> addTeam(@RequestBody TeamDetails details) {
     	boolean flag=adminService.addTeam(details);
     	if(flag)
-    		return new ResponseEntity("Team added",HttpStatus.OK);
+    		return new ResponseEntity<Object>("Team added",HttpStatus.OK);
     	else
-    		return new ResponseEntity("Unable to add Team",HttpStatus.BAD_REQUEST);
+    		return new ResponseEntity<Object>("Unable to add Team",HttpStatus.BAD_REQUEST);
     }
     
     @PostMapping(value="/updatematch")
-	public ResponseEntity updateMatch(@RequestBody MatchDetails details) {
+	public ResponseEntity<?> updateMatch(@RequestBody MatchDetails details) {
 		
 		List<MatchDetails> flag=adminService.updateMatch(details);
 		if(flag!=null) {
-			return new ResponseEntity(flag,HttpStatus.OK);
+			return new ResponseEntity<Object>(flag,HttpStatus.OK);
 		}
 		else 
-			return new ResponseEntity("Unable to update",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Object>("Unable to update",HttpStatus.BAD_REQUEST);
 		
 	}
     
     @GetMapping(value="/teambidders")
-    public ResponseEntity noOfBidder(@RequestParam int teamId) {
+    public ResponseEntity<?> noOfBidder(@RequestParam int teamId) {
     	long count=adminService.noOfBidders(teamId);
     	if(count==-1)
-    		return new ResponseEntity("No Such team",HttpStatus.BAD_REQUEST);
-    	else return new ResponseEntity(count,HttpStatus.OK);
+    		return new ResponseEntity<Object>("No Such team",HttpStatus.BAD_REQUEST);
+    	else return new ResponseEntity<Object>(count,HttpStatus.OK);
     }
     
     @GetMapping(value="/biddingpercent")
-    public ResponseEntity biddingPercentage(int matchId) {
+    public ResponseEntity<?> biddingPercentage(int matchId) {
     	double percent=adminService.biddingPercentage(matchId);
     	
-    	return new ResponseEntity(percent+" "+(100-percent),HttpStatus.OK);
+    	return new ResponseEntity<Object>(percent+" "+(100-percent),HttpStatus.OK);
     }
     
     
