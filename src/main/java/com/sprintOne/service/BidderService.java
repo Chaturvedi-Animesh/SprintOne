@@ -45,6 +45,7 @@ public class BidderService {
 		if(bidderList.isPresent() || emailList.contains(bidder.getEmail())) {
 			return false;
 		}else {
+			bidder.setPoints(0);
 			bidderDao.save(bidder);
 			Leaderboard leaderboard=new Leaderboard(bidder.getUserID(), bidder.getName(), 0, 0, 0, 0);
 			leaderboardDao.save(leaderboard);
@@ -78,14 +79,17 @@ public class BidderService {
 		return null;
 	}
 	
-//	public String changeTeam(BiddingDetails biddingDetails) {
-//		int matchid=biddingDetails.getMatchId();
-//		MatchDetails matchDetails= matchDetailsDao.getById(matchid);
-//		if(matchDetails.getStatus()=="Started") {
-//			return "Cannot Change Team";
-//		}
-		
-		
+/*	public String changeTeam(BiddingDetails biddingDetails) {
+		int matchid=biddingDetails.getMatchId();
+		MatchDetails matchDetails= matchDetailsDao.getById(matchid);
+		if(matchDetails.getStatus()=="Started") {
+			return "Cannot Change Team";
+		}
+		else {
+			
+		}
+	}	
+*/		
 		
 //		MatchDetails md = new MatchDetails();
 //		if(md.getStatus().equals("Match started")) {

@@ -23,10 +23,10 @@ import com.sprintOne.model.MatchDetails;
 import com.sprintOne.model.TeamDetails;
 import com.sprintOne.model.Tournament;
 import com.sprintOne.service.AdminService;
+import com.sprintOne.model.MatchSchedule;
 
 
-@RestController
-@RequestMapping(value="/admin")
+@RestController(value = "/admin")
 public class AdminController {
 
 	@Autowired

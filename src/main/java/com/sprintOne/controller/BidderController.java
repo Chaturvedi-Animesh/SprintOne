@@ -56,13 +56,14 @@ public class BidderController {
 		}else {
 			return new ResponseEntity<>("Login Successfull!", HttpStatus.OK);
 		}
+		
 	}
 	
 	@GetMapping("/bidderLeaderBoard/{bidderId}")
 	public ResponseEntity<List<Leaderboard>> viewLeaderboard(@PathVariable int bidderId){
-		List<Leaderboard> leadList = bidderService.viewLeaderboard(bidderId);
-		if(leadList==null) {
-			return new ResponseEntity("Bidder LeaderBoard is empty", HttpStatus.BAD_REQUEST);
+	    List<Leaderboard> leadList = bidderService.viewLeaderboard(bidderId);
+		if(leadList.isEmpty()) {
+			return new ResponseEntity("LeaderBoard is empty", HttpStatus.BAD_REQUEST);
 		}
 		else
 			return new ResponseEntity<>(leadList, HttpStatus.OK);
@@ -72,8 +73,9 @@ public class BidderController {
 	@GetMapping("/teamLeaderBoard")
 	public ResponseEntity<List<TeamPointsTable>> viewPointsTable(){
 		List<TeamPointsTable> teamList = bidderService.viewPointsTable();
-		if(teamList.size() == 0) {
-			return new ResponseEntity("Team LeaderBoard is empty", HttpStatus.BAD_REQUEST);
+		if(teamList.isEmpty()) {
+            return new ResponseEntity("Team LeaderBoard is empty", HttpStatus.BAD_REQUEST);
+		   
 		}
 		else
 			return new ResponseEntity<>(teamList, HttpStatus.OK);
