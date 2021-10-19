@@ -1,5 +1,7 @@
 package com.sprintOne.service;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,12 @@ public class SystemService {
 	TeamPointsTableDao teamPointsTableDao;
 	
 	public List<MatchDetails> getMatchDetails(){
+		
+		List<MatchDetails> matches=matchDetailsDao.findAll().stream().filter(match -> match.getDateTime().isBefore(LocalDateTime.now())).toList();
+		return matches;
+	}
+	
+	public List<MatchDetails> getAllMatchDetails(){
 		return matchDetailsDao.findAll();
 	}
 	
@@ -43,32 +51,8 @@ public class SystemService {
 		}else return null;
 	}
 	
-	public void updateMatchDelay(int matchId, String delay) {
-		MatchDetails details=matchDetailsDao.getById(matchId);
-		details.setDelay(delay);
-		details.setStatus("delayed");
-		matchDetailsDao.saveAndFlush(details);
-	}
-	
-	public void startMatch(int matchId) {
-		MatchDetails details=matchDetailsDao.getById(matchId);
-		details.setDelay("none");
-		details.setStatus("started");
-		matchDetailsDao.saveAndFlush(details);
-	}
-	
-	public void updateWinner(int matchId, String winner) {
-		MatchDetails details=matchDetailsDao.getById(matchId);
-		details.setDelay("none");
-		details.setStatus("comppleted");
-		details.setWinner(winner);
-		matchDetailsDao.saveAndFlush(details);
-		
-		List<TeamPointsTable> pointsTable=pointsTableDao.findAll();
-		
-//		for(int i=0;i<pointsTable.size();i++) {
-//			if(pointsTable.get(i).get)
-//		}
+	public TeamPointsTable displayteamstats(int id) {
+		return teamPointsTableDao.findById(id).get();
 	}
 	
 	

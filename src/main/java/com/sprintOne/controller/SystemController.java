@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -48,5 +50,24 @@ public class SystemController {
 		}else
 		return new ResponseEntity<TeamPointsTable>(pointsTable,HttpStatus.OK);
 	}
+	
+	@GetMapping(value="/matches")
+	public ResponseEntity getAllMatches() {
+		
+		return new ResponseEntity(systemService.getAllMatchDetails(),HttpStatus.OK);
+		
+	}
+	
+	@GetMapping(value="/teamstats/{id}")
+	public ResponseEntity teamstats(@RequestParam int id) {
+		TeamDetails list=systemService.getTeamDetails(id);
+		if(list==null) {
+			return new ResponseEntity("No such team", HttpStatus.BAD_REQUEST);
+		}
+		else
+			return new ResponseEntity(list,HttpStatus.OK);
+	}
+	
+	
 }
 	

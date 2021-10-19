@@ -1,20 +1,29 @@
 package com.sprintOne.model;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class MatchDetails {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int matchId;
 	private int teamOneId;
 	private int teamTwoId;
-	private Date matchDate;
-	private LocalTime matchTime;
+	private LocalDateTime dateTime;;
 	private String matchStadium;
 	private String winner;
 	private String status;
@@ -24,14 +33,13 @@ public class MatchDetails {
 		
 	}
 
-	public MatchDetails(int matchId, int teamOne, int teamTwo, Date matchDate, LocalTime matchTime,
-			String matchStadium, String winner, String status, String delay) {
+	public MatchDetails(int matchId, int teamOneId, int teamTwoId, LocalDateTime dateTime, String matchStadium,
+			String winner, String status, String delay) {
 		super();
 		this.matchId = matchId;
-		this.teamOneId = teamOne;
-		this.teamTwoId = teamTwo;
-		this.matchDate = matchDate;
-		this.matchTime = matchTime;
+		this.teamOneId = teamOneId;
+		this.teamTwoId = teamTwoId;
+		this.dateTime = dateTime;
 		this.matchStadium = matchStadium;
 		this.winner = winner;
 		this.status = status;
@@ -50,32 +58,24 @@ public class MatchDetails {
 		return teamOneId;
 	}
 
-	public void setTeamOneId(int teamOne) {
-		this.teamOneId = teamOne;
+	public void setTeamOneId(int teamOneId) {
+		this.teamOneId = teamOneId;
 	}
 
 	public int getTeamTwoId() {
 		return teamTwoId;
 	}
 
-	public void setTeamTwo(int teamTwo) {
-		this.teamTwoId = teamTwo;
+	public void setTeamTwoId(int teamTwoId) {
+		this.teamTwoId = teamTwoId;
 	}
 
-	public Date getMatchDate() {
-		return matchDate;
+	public LocalDateTime getDateTime() {
+		return dateTime;
 	}
 
-	public void setMatchDate(Date matchDate) {
-		this.matchDate = matchDate;
-	}
-
-	public LocalTime getMatchTime() {
-		return matchTime;
-	}
-
-	public void setMatchTime(LocalTime matchTime) {
-		this.matchTime = matchTime;
+	public void setDateTime(LocalDateTime dateTime) {
+		this.dateTime = dateTime;
 	}
 
 	public String getMatchStadium() {
@@ -109,6 +109,8 @@ public class MatchDetails {
 	public void setDelay(String delay) {
 		this.delay = delay;
 	}
+
+	
 
 	
 	

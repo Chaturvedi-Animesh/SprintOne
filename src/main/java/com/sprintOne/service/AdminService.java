@@ -4,6 +4,7 @@ package com.sprintOne.service;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +15,14 @@ import com.sprintOne.dao.BidderDao;
 import com.sprintOne.dao.BiddingDetailsDao;
 import com.sprintOne.dao.MatchDetailsDao;
 import com.sprintOne.dao.TeamDetailsDao;
+import com.sprintOne.dao.TeamPointsTableDao;
 import com.sprintOne.dao.TournamentDao;
 import com.sprintOne.model.Admin;
 import com.sprintOne.model.Bidder;
 import com.sprintOne.model.BiddingDetails;
 import com.sprintOne.model.MatchDetails;
 import com.sprintOne.model.TeamDetails;
+import com.sprintOne.model.TeamPointsTable;
 import com.sprintOne.model.Tournament;
 
 @Service
@@ -43,6 +46,9 @@ public class AdminService {
 	@Autowired
 	AdminDao adminDao;
 	
+	@Autowired
+	TeamPointsTableDao pointsTableDao;
+	
 	int addMatch;
 	
 	//email validation
@@ -55,6 +61,7 @@ public class AdminService {
 			return false;
 		else {
 		teamDetailsDao.save(teamDetails);
+		TeamPointsTable pointsTable=new TeamPointsTable(teamDetails.getTeamId(), teamDetails.getTeamName(), 0, 0, 0, 0, 0);
 		return true;
 	}}
       
@@ -73,7 +80,7 @@ public class AdminService {
 		int teamOneId=details.getTeamOneId();
 		int teamTwoId=details.getTeamTwoId();
 		
-		if(teamDetailsDao.findById(teamOneId)!=null && teamDetailsDao.findById(teamTwoId)!=null) {
+		if(teamDetailsDao.findById(teamOneId).isPresent() && teamDetailsDao.findById(teamTwoId).isPresent()) {
 		matchDetailsDao.save(details);
 		return true;
 		}
@@ -81,15 +88,14 @@ public class AdminService {
 			return false;
 	}
 	
-	public boolean rescheduleMatches(int matchId) {
-		List<MatchDetails> md = matchDetailsDao.findAll();
-		for(MatchDetails m : md) {
-			if(addMatch == matchId) {
-				md.add(m);
-				return true;
-			}
-	}
-		return false;
+	public MatchDetails rescheduleMatches(int matchId) {
+		MatchDetails details=matchDetailsDao.findById(matchId).get();
+		if(details==null)
+			return null;
+		details.setDelay("Delay due to bad weather");
+		details.setDateTime(details.getDateTime().plusMinutes(30));
+		matchDetailsDao.save(details);
+		return details;
 	}
 	
 	public boolean cancelMatch(int matchId ) {
@@ -120,7 +126,37 @@ public class AdminService {
 	
 	
 	
-	public void updateTeamStatistics(Admin admin) {
+	public void declareResult(Map<String, String> map) {
+		String winner=map.get("winner");
+		String loser=map.get("loser");
+		int matchId=Integer.parseInt(map.get("matchId"));
+		
+		MatchDetails details=matchDetailsDao.findById(matchId).get();
+		
+		details.setStatus("completed");
+		details.setWinner(winner);
+		
+		matchDetailsDao.save(details);
+		
+		List<TeamPointsTable> pointsTable= pointsTableDao.findAll();
+		
+		for(int i=0;i<pointsTable.size();i++) {
+			if(pointsTable.get(i).getTeamName().equals(winner)) {
+				pointsTable.get(i).setMatchesPlayed(pointsTable.get(i).getMatchesPlayed()+1);
+				pointsTable.get(i).setMatchesWon(pointsTable.get(i).getMatchesWon()+1);
+				
+			}
+			if(pointsTable.get(i).getTeamName().equals(loser)) {
+				pointsTable.get(i).setMatchesPlayed(pointsTable.get(i).getMatchesPlayed()+1);
+				pointsTable.get(i).setMatchesLost(pointsTable.get(i).getMatchesLost()+1);
+				
+			}
+		}
+		
+		pointsTableDao.deleteAll();
+		pointsTableDao.saveAll(pointsTable);
+		
+		
 		
 	}
 	
@@ -132,6 +168,30 @@ public class AdminService {
 			return false;
 		tournamentDao.save(tournament);
 		return true;
+		
+	}
+	
+	public List<MatchDetails> updateMatch(MatchDetails details) {
+		if(matchDetailsDao.existsById(details.getMatchId())) {
+			matchDetailsDao.save(details);
+			return matchDetailsDao.findAll();
+		}else return null;
+	}
+	
+	public long noOfBidders(int teamId) {
+		if(teamDetailsDao.findById(teamId).isEmpty())
+			return -1;
+		else {
+			String teamName=teamDetailsDao.findById(teamId).get().getTeamName();
+			long count=biddingDetailsDao.findAll().stream().filter(bidding->bidding.getUserOpinion().equals(teamName)).count();
+			return count;
+		}
+	}
+	
+	public double biddingPercentage(int matchId) {
+		int teamOneId=matchDetailsDao.findById(matchId).get().getTeamOneId();
+		int teamTwoId=matchDetailsDao.findById(matchId).get().getTeamTwoId();
+		
 		
 	}
 	
