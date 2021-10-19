@@ -71,8 +71,10 @@ public class AdminController {
 	@PostMapping(value="/result")
 	public ResponseEntity declareResult(@RequestParam Map<String, String> matchresult) {
 		
+		adminService.declareResult(matchresult);
 		
-		return null;
+		
+		return new ResponseEntity("Result Declared Succesfully",HttpStatus.OK);
 		
 	}
     
@@ -116,7 +118,9 @@ public class AdminController {
     
     @GetMapping(value="/biddingpercent")
     public ResponseEntity biddingPercentage(int matchId) {
+    	double percent=adminService.biddingPercentage(matchId);
     	
+    	return new ResponseEntity(percent+" "+(100-percent),HttpStatus.OK);
     }
     
     

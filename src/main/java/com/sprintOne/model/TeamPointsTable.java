@@ -68,8 +68,8 @@ public class TeamPointsTable
 	public int getPoints() {
 		return points;
 	}
-	public void setPoints(int points) {
-		this.points = points;
+	public void setPoints() {
+		this.points = this.matchesWon;
 	}
 	
 

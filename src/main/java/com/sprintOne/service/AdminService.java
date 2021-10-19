@@ -141,18 +141,52 @@ public class AdminService {
 		
 		List<TeamPointsTable> pointsTable= pointsTableDao.findAll();
 		
+		int winnerPoints=0;
+		int looserPoints=0;
+		int pointsWon=0;
+		
 		for(int i=0;i<pointsTable.size();i++) {
 			if(pointsTable.get(i).getTeamName().equals(winner)) {
 				pointsTable.get(i).setMatchesPlayed(pointsTable.get(i).getMatchesPlayed()+1);
 				pointsTable.get(i).setMatchesWon(pointsTable.get(i).getMatchesWon()+1);
+				pointsTable.get(i).setPoints();
+				
+				winnerPoints=pointsTable.get(i).getPoints();
 				
 			}
 			if(pointsTable.get(i).getTeamName().equals(loser)) {
 				pointsTable.get(i).setMatchesPlayed(pointsTable.get(i).getMatchesPlayed()+1);
 				pointsTable.get(i).setMatchesLost(pointsTable.get(i).getMatchesLost()+1);
 				
+				looserPoints=pointsTable.get(i).getPoints();
+				
 			}
 		}
+		
+		if(winnerPoints==0 && looserPoints==0)
+			pointsWon=2;
+		if(Math.abs(winnerPoints-looserPoints)<=6) {
+			if(winnerPoints>looserPoints)
+				pointsWon=2;
+			else pointsWon=3;
+		}
+		else {
+			if(winnerPoints>looserPoints)
+				pointsWon=2;
+			else pointsWon=5;
+		}
+		
+		List<Integer> winnerbidderids= biddingDetailsDao.findAll().stream().filter(bidder -> bidder.getUserOpinion().equals(winner)).map(bidder -> bidder.getUserId()).toList();
+		
+		List<Bidder> bidderList=bidderDao.findAllById(winnerbidderids);
+		
+		final int points=winnerPoints;
+		
+		bidderList.stream().forEach(bidder -> bidder.setPoints(bidder.getPoints()+points));
+		
+		bidderDao.saveAll(bidderList);
+		
+		biddingDetailsDao.deleteAll();
 		
 		pointsTableDao.deleteAll();
 		pointsTableDao.saveAll(pointsTable);
@@ -193,6 +227,10 @@ public class AdminService {
 		int teamOneId=matchDetailsDao.findById(matchId).get().getTeamOneId();
 		int teamTwoId=matchDetailsDao.findById(matchId).get().getTeamTwoId();
 		
+		long teamOneBidder=noOfBidders(teamOneId);
+		long teamTwoBidder=noOfBidders(teamTwoId);
+		
+		return ((double)teamOneBidder/(teamOneBidder+teamTwoBidder));
 		
 	}
 	

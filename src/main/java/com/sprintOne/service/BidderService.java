@@ -1,5 +1,6 @@
 package com.sprintOne.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -79,35 +80,28 @@ public class BidderService {
 		return null;
 	}
 	
-/*	public String changeTeam(BiddingDetails biddingDetails) {
-		int matchid=biddingDetails.getMatchId();
-		MatchDetails matchDetails= matchDetailsDao.getById(matchid);
-		if(matchDetails.getStatus()=="Started") {
-			return "Cannot Change Team";
-		}
-		else {
+	public String changeTeam(int userId) {
+		int matchId=biddingDetailsDao.getById(userId).getMatchId();
+		if(matchDetailsDao.getById(matchId).getDateTime().isAfter(LocalDateTime.now())) {
+			String teamOne=teamDetailsDao.getById(matchDetailsDao.getById(matchId).getTeamOneId()).getTeamName();
+			String teamTwo=teamDetailsDao.getById(matchDetailsDao.getById(matchId).getTeamTwoId()).getTeamName();
+			BiddingDetails biddingDetails=biddingDetailsDao.getById(userId);
 			
+			if(biddingDetails.getUserOpinion().equals(teamOne))
+				biddingDetails.setUserOpinion(teamTwo);
+			else
+				biddingDetails.setUserOpinion(teamOne);
+			
+			biddingDetailsDao.save(biddingDetails);
+			
+			return "Team Changed";
 		}
-	}	
-*/		
 		
-//		MatchDetails md = new MatchDetails();
-//		if(md.getStatus().equals("Match started")) {
-//			return "Not possible to change the team";
-//		}
-//		else {
-//			List<TeamDetails> list = teamDetailsDao.findAll();
-//			for(TeamDetails t : list) {
-//				if(t.getTeamId() == teamdetails.getTeamId()) {
-//					t.setTeamName(teamdetails.getTeamName());
-//					t.setTeamPlayers(teamdetails.getTeamPlayers());
-//					t.setHomeGround(teamdetails.getHomeGround());
-//					t.setCaptain(teamdetails.getCaptain());
-//				}
-//			}
-//			return "Team successfully changed";
-//		}		
-//	}
+		else return "Cannot Change Team After Match Start";
+		
+	}	
+	
+		
 	
     public void bid(BiddingDetails biddingDetails) {
 		biddingDetailsDao.save(biddingDetails);
