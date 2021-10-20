@@ -4,12 +4,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sprintOne.customException.InvalidCredentialsException;
 import com.sprintOne.model.Bidder;
 import com.sprintOne.model.Leaderboard;
-import com.sprintOne.model.MatchDetails;
 import com.sprintOne.model.TeamDetails;
 import com.sprintOne.model.TeamPointsTable;
 import com.sprintOne.service.BiddderService;
@@ -45,7 +42,7 @@ public class BidderController {
 
 	
 	@GetMapping("/login")
-	public ResponseEntity<String> loginBidder(@RequestParam Map<String, String> userpass) throws IOException {
+	public ResponseEntity<String> loginBidder(@RequestParam Map<String, String> userpass) throws IOException,InvalidCredentialsException {
 		String email=userpass.get("email");
 		String password=userpass.get("password");
 		if(email==null||password==null) {
