@@ -25,7 +25,7 @@ import com.sprintOne.model.TeamDetails;
 import com.sprintOne.model.TeamPointsTable;
 
 @Service("bidderService")
-public class BidderService {
+public class BidderServiceImpl implements BiddderService {
 	
 	@Autowired
 	BidderDao bidderDao;
@@ -40,6 +40,7 @@ public class BidderService {
 	@Autowired
 	BiddingDetailsDao biddingDetailsDao;
 	
+	@Override
 	public boolean registerBidder(Bidder bidder) {
 		Optional<Bidder> bidderList = bidderDao.findById(bidder.getUserID());
 		List emailList=bidderDao.findAll().stream().map(bidders->bidders.getEmail()).toList();
@@ -54,6 +55,7 @@ public class BidderService {
 		}
 	}
 	
+	@Override
 	public boolean loginBidder(String email, String password) {
 		List<Bidder> bidderList=bidderDao.findAll();
 			
@@ -68,10 +70,12 @@ public class BidderService {
 		return false;
 	}
 	
+	@Override
 	public List<MatchDetails> showMatchDetails() {
 		return matchDetailsDao.findAll();
 	}
 	
+	@Override
 	public TeamDetails selectTeam(int teamId) {
 		Optional<TeamDetails> teamDetails = teamDetailsDao.findById(teamId);
 		if(teamDetails.isPresent()) {
@@ -80,6 +84,7 @@ public class BidderService {
 		return null;
 	}
 	
+	@Override
 	public String changeTeam(int userId) {
 		int matchId=biddingDetailsDao.getById(userId).getMatchId();
 		if(matchDetailsDao.getById(matchId).getDateTime().isAfter(LocalDateTime.now())) {
@@ -103,10 +108,12 @@ public class BidderService {
 	
 		
 	
-    public void bid(BiddingDetails biddingDetails) {
+    @Override
+	public void bid(BiddingDetails biddingDetails) {
 		biddingDetailsDao.save(biddingDetails);
 	}
 	
+	@Override
 	public boolean cancelBid(int userId, int matchId) {
 		List<BiddingDetails> biddingDetails = biddingDetailsDao.findAll();
 		for(BiddingDetails list: biddingDetails) {
@@ -118,11 +125,13 @@ public class BidderService {
 		return false;
 	}
    
-    public List<TeamPointsTable> viewPointsTable(){
+    @Override
+	public List<TeamPointsTable> viewPointsTable(){
     	return teamPointsTableDao.findAll().stream().sorted(Comparator.comparingInt(TeamPointsTable :: getPoints)).collect(Collectors.toList()); 
     }
     
-    public List<Leaderboard> viewLeaderboard(int bidderId){	
+    @Override
+	public List<Leaderboard> viewLeaderboard(int bidderId){	
     List<Leaderboard> list= leaderboardDao.findAll().stream().sorted(Comparator.comparingInt(Leaderboard :: getBidderpoints)).limit(3).collect(Collectors.toList());
     list.add(leaderboardDao.getById(bidderId));
     return list;

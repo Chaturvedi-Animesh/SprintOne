@@ -24,14 +24,14 @@ import com.sprintOne.model.Leaderboard;
 import com.sprintOne.model.MatchDetails;
 import com.sprintOne.model.TeamDetails;
 import com.sprintOne.model.TeamPointsTable;
-import com.sprintOne.service.BidderService;
+import com.sprintOne.service.BiddderService;
 
 @RestController
 @RequestMapping(value="/bidder")
 public class BidderController {
 
 	@Autowired
-	BidderService bidderService;
+	BiddderService bidderService;
 	
 	
 	@PostMapping("/register")
