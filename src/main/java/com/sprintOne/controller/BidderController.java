@@ -1,12 +1,16 @@
 package com.sprintOne.controller;
 
 import java.io.IOException;
+
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,11 +21,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sprintOne.customException.InvalidCredentialsException;
+import com.sprintOne.customException.UserAlreadyPresentException;
 import com.sprintOne.model.Bidder;
 import com.sprintOne.model.Leaderboard;
+import com.sprintOne.model.MatchDetails;
 import com.sprintOne.model.TeamDetails;
 import com.sprintOne.model.TeamPointsTable;
 import com.sprintOne.service.BiddderService;
+import com.sprintOne.service.BidderService;
+import com.sprintOne.service.BidderServiceImpl;
 
 @RestController
 @RequestMapping(value="/bidder")
@@ -32,28 +40,27 @@ public class BidderController {
 	
 	
 	@PostMapping("/register")
-	public ResponseEntity<String> registerBidder(@RequestBody Bidder bidder) {
+	public ResponseEntity<String> registerBidder(@RequestBody Bidder bidder) throws UserAlreadyPresentException{
 		boolean registerBidder = bidderService.registerBidder(bidder);
 		if(registerBidder == false) {
-			return new ResponseEntity("User Already Present",HttpStatus.BAD_REQUEST);
+			throw new UserAlreadyPresentException("User Already Present");
 		}else
 			return new ResponseEntity<>("Registration Successfull!", HttpStatus.OK);
 	}
 
 	
 	@GetMapping("/login")
-	public ResponseEntity<String> loginBidder(@RequestParam Map<String, String> userpass) throws IOException,InvalidCredentialsException {
-		String email=userpass.get("email");
-		String password=userpass.get("password");
-		if(email==null||password==null) {
-			return new ResponseEntity("Inavalid username and password",HttpStatus.BAD_REQUEST);
-		}
-		if(bidderService.loginBidder(email, password) == false) {
-			return new ResponseEntity("Inavalid username and password",HttpStatus.BAD_REQUEST);
-		}else {
-			return new ResponseEntity<>("Login Successfull!", HttpStatus.OK);
-		}
-		
+	public ResponseEntity<String> loginBidder(@RequestParam Map<String, String> userpass) throws IOException, InvalidCredentialsException{
+			String email=userpass.get("email");
+			String password=userpass.get("password");
+			if(email==null||password==null) {
+				throw new InvalidCredentialsException("Invalid username and password"); 
+			}
+			if(bidderService.loginBidder(email, password) == false) {
+				throw new InvalidCredentialsException("Invalid username and password");
+			}else {
+				return new ResponseEntity<>("Login succesfull!", HttpStatus.OK);
+			}	
 	}
 	
 	@GetMapping("/bidderLeaderBoard/{bidderId}")
@@ -71,8 +78,7 @@ public class BidderController {
 	public ResponseEntity<List<TeamPointsTable>> viewPointsTable(){
 		List<TeamPointsTable> teamList = bidderService.viewPointsTable();
 		if(teamList.isEmpty()) {
-            return new ResponseEntity("Team LeaderBoard is empty", HttpStatus.BAD_REQUEST);
-		   
+            return new ResponseEntity("Team LeaderBoard is empty", HttpStatus.BAD_REQUEST);  
 		}
 		else
 			return new ResponseEntity<>(teamList, HttpStatus.OK);
@@ -89,10 +95,13 @@ public class BidderController {
 			return new ResponseEntity<>(td, HttpStatus.OK);
 	}
 	
-	@PutMapping("/changeTeam")
-	public ResponseEntity<String> changeTeam(@RequestParam int userId){
-		String str = bidderService.changeTeam(userId);
-			return new ResponseEntity(str, HttpStatus.BAD_REQUEST);
-			
-	}
+//	@PutMapping("/changeTeam")
+//	public ResponseEntity<String> changeTeam(@RequestBody TeamDetails teamdetails){
+//		String str = bidderService.changeTeam(teamdetails);
+//		if(str == null) {
+//			return new ResponseEntity("Team Details not available", HttpStatus.BAD_REQUEST);
+//		}
+//		else
+//			return new ResponseEntity(str, HttpStatus.OK);
+//	}
 }

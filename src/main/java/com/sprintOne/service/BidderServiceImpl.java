@@ -1,7 +1,10 @@
 package com.sprintOne.service;
 
 import java.time.LocalDateTime;
+
+import java.util.ArrayList;
 import java.util.Comparator;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -10,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sprintOne.customException.InvalidCredentialsException;
+import com.sprintOne.customException.UserAlreadyPresentException;
 import com.sprintOne.dao.BidderDao;
 import com.sprintOne.dao.BiddingDetailsDao;
 import com.sprintOne.dao.LeaderboardDao;
@@ -55,7 +59,7 @@ public class BidderServiceImpl implements BiddderService {
 	}
 	
 	@Override
-	public boolean loginBidder(String email, String password) throws InvalidCredentialsException {
+	public boolean loginBidder(String email, String password) throws InvalidCredentialsException{
 		List<Bidder> bidderList=bidderDao.findAll();
 			
 		for(Bidder bidder:bidderList) {
@@ -63,11 +67,10 @@ public class BidderServiceImpl implements BiddderService {
 				if(bidder.getEmail().equals(email) && bidder.getPassword().equals(password)){
 					return true;
 				}
-			} else
-				throw new InvalidCredentialsException("Invalid username or password");
+			}
 			
 		}
-		throw new InvalidCredentialsException("Invalid username or password");
+		return false;
 	}
 	
 	@Override

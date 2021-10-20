@@ -1,9 +1,6 @@
 package com.sprintOne.service;
 
 
-import java.time.LocalTime;
-
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -11,6 +8,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sprintOne.customException.BidderNotFoundException;
+import com.sprintOne.customException.MatchNotFoundException;
 import com.sprintOne.dao.AdminDao;
 import com.sprintOne.dao.BidderDao;
 import com.sprintOne.dao.BiddingDetailsDao;
@@ -18,15 +17,13 @@ import com.sprintOne.dao.MatchDetailsDao;
 import com.sprintOne.dao.TeamDetailsDao;
 import com.sprintOne.dao.TeamPointsTableDao;
 import com.sprintOne.dao.TournamentDao;
-import com.sprintOne.model.Admin;
 import com.sprintOne.model.Bidder;
-import com.sprintOne.model.BiddingDetails;
 import com.sprintOne.model.MatchDetails;
 import com.sprintOne.model.TeamDetails;
 import com.sprintOne.model.TeamPointsTable;
 import com.sprintOne.model.Tournament;
 
-@Service
+@Service("adminService")
 public class AdminServiceImpl implements AdminService {
 	@Autowired
 	TournamentDao tournamentDao;
@@ -95,7 +92,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Override
-	public boolean cancelMatch(int matchId ) {
+	public boolean cancelMatch(int matchId ) throws MatchNotFoundException{
 		List<MatchDetails> md = matchDetailsDao.findAll();
 		for(MatchDetails m : md) {
 			if(m.getMatchId() == matchId) {
@@ -109,7 +106,7 @@ public class AdminServiceImpl implements AdminService {
 	
 	
 	@Override
-	public Bidder viewBidder(int id) {
+	public Bidder viewBidder(int id) throws BidderNotFoundException{
 		return bidderDao.findById(id).get();
 	}
 	
