@@ -10,6 +10,7 @@ import com.sprintOne.customException.BidderNotFoundException;
 import com.sprintOne.customException.EmptyLeaderboardException;
 import com.sprintOne.customException.EmptyMatchDetailsException;
 import com.sprintOne.customException.EmptyMatchListException;
+import com.sprintOne.customException.EmptyTeamLeaderboardException;
 import com.sprintOne.customException.ErrorMessage;
 import com.sprintOne.customException.InvalidCredentialsException;
 import com.sprintOne.customException.MatchNotFoundException;
@@ -82,6 +83,13 @@ public class ExceptionController {
 		ErrorMessage error = new ErrorMessage();
 		error.setErrorCode(HttpStatus.NOT_FOUND.value());
 		error.setErrorMessage(el.getMessage());
+		return new ResponseEntity<>(error,HttpStatus.OK);
+	}
+	@ExceptionHandler(EmptyTeamLeaderboardException.class)
+	public ResponseEntity<ErrorMessage> handleEmptyTeamLeaderboardException(EmptyTeamLeaderboardException et) {
+		ErrorMessage error = new ErrorMessage();
+		error.setErrorCode(HttpStatus.NOT_FOUND.value());
+		error.setErrorMessage(et.getMessage());
 		return new ResponseEntity<>(error,HttpStatus.OK);
 	}
 	
