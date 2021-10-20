@@ -2,6 +2,7 @@ package com.sprintOne.controller;
 
 import java.io.IOException;
 
+
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +21,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sprintOne.customException.EmptyLeaderboardException;
+import com.sprintOne.customException.EmptyTeamLeaderboardException;
 import com.sprintOne.customException.InvalidCredentialsException;
+import com.sprintOne.customException.NoSuchTeamException;
 import com.sprintOne.customException.UserAlreadyPresentException;
 import com.sprintOne.model.Bidder;
 import com.sprintOne.model.Leaderboard;
@@ -28,7 +32,7 @@ import com.sprintOne.model.MatchDetails;
 import com.sprintOne.model.TeamDetails;
 import com.sprintOne.model.TeamPointsTable;
 import com.sprintOne.service.BiddderService;
-import com.sprintOne.service.BidderService;
+
 import com.sprintOne.service.BidderServiceImpl;
 
 @RestController
@@ -64,10 +68,10 @@ public class BidderController {
 	}
 	
 	@GetMapping("/bidderLeaderBoard/{bidderId}")
-	public ResponseEntity<List<Leaderboard>> viewLeaderboard(@PathVariable int bidderId){
+	public ResponseEntity<List<Leaderboard>> viewLeaderboard(@PathVariable int bidderId) throws EmptyLeaderboardException{
 	    List<Leaderboard> leadList = bidderService.viewLeaderboard(bidderId);
 		if(leadList.isEmpty()) {
-			return new ResponseEntity("LeaderBoard is empty", HttpStatus.BAD_REQUEST);
+			throw new EmptyLeaderboardException("LeaderBoard is empty");
 		}
 		else
 			return new ResponseEntity<>(leadList, HttpStatus.OK);
@@ -75,10 +79,10 @@ public class BidderController {
 	}
 	
 	@GetMapping("/teamLeaderBoard")
-	public ResponseEntity<List<TeamPointsTable>> viewPointsTable(){
+	public ResponseEntity<List<TeamPointsTable>> viewPointsTable() throws EmptyTeamLeaderboardException{
 		List<TeamPointsTable> teamList = bidderService.viewPointsTable();
 		if(teamList.isEmpty()) {
-            return new ResponseEntity("Team LeaderBoard is empty", HttpStatus.BAD_REQUEST);  
+            throw new EmptyTeamLeaderboardException("Team LeaderBoard is empty");  
 		}
 		else
 			return new ResponseEntity<>(teamList, HttpStatus.OK);
@@ -86,22 +90,22 @@ public class BidderController {
 	}
 	
 	@GetMapping("/selectTeam/{teamId}")
-	public ResponseEntity<TeamDetails> selectTeam(@PathVariable int teamId){
+	public ResponseEntity<TeamDetails> selectTeam(@PathVariable int teamId) throws NoSuchTeamException{
 		TeamDetails td = bidderService.selectTeam(teamId);
 		if(td == null) {
-			return new ResponseEntity("Team Details not available", HttpStatus.BAD_REQUEST);
+			throw new NoSuchTeamException("No Such Team");
 		}
 		else
 			return new ResponseEntity<>(td, HttpStatus.OK);
 	}
 	
-//	@PutMapping("/changeTeam")
-//	public ResponseEntity<String> changeTeam(@RequestBody TeamDetails teamdetails){
-//		String str = bidderService.changeTeam(teamdetails);
-//		if(str == null) {
-//			return new ResponseEntity("Team Details not available", HttpStatus.BAD_REQUEST);
-//		}
-//		else
-//			return new ResponseEntity(str, HttpStatus.OK);
-//	}
+	@PutMapping("/changeTeam")
+	public ResponseEntity<String> changeTeam(@RequestParam int userId){
+		String str = bidderService.changeTeam(userId);
+		if(str == null) {
+ 		return new ResponseEntity("Team Details not available", HttpStatus.BAD_REQUEST);
+		}
+		else
+			return new ResponseEntity(str, HttpStatus.OK);
+	}
 }

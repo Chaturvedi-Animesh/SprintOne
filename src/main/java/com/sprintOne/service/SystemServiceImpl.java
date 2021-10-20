@@ -7,6 +7,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sprintOne.customException.EmptyMatchDetailsException;
+import com.sprintOne.customException.EmptyMatchListException;
+import com.sprintOne.customException.NoSuchTeamException;
 import com.sprintOne.dao.MatchDetailsDao;
 import com.sprintOne.dao.TeamDetailsDao;
 import com.sprintOne.dao.TeamPointsTableDao;
@@ -14,7 +17,7 @@ import com.sprintOne.model.MatchDetails;
 import com.sprintOne.model.TeamDetails;
 import com.sprintOne.model.TeamPointsTable;
 
-@Service
+@Service("systemService")
 public class SystemServiceImpl implements SystemService {
 
 	@Autowired
@@ -30,26 +33,26 @@ public class SystemServiceImpl implements SystemService {
 	TeamPointsTableDao teamPointsTableDao;
 	
 	@Override
-	public List<MatchDetails> getMatchDetails(){
+	public List<MatchDetails> getMatchDetails() throws EmptyMatchListException{
 		
 		List<MatchDetails> matches=matchDetailsDao.findAll().stream().filter(match -> match.getDateTime().isBefore(LocalDateTime.now())).toList();
 		return matches;
 	}
 	
 	@Override
-	public List<MatchDetails> getAllMatchDetails(){
+	public List<MatchDetails> getAllMatchDetails() throws EmptyMatchDetailsException{
 		return matchDetailsDao.findAll();
 	}
 	
 	@Override
-	public TeamDetails getTeamDetails(int id) {
+	public TeamDetails getTeamDetails(int id) throws NoSuchTeamException{
 		if(teamDetailsDao.existsById(id)) {
 			return teamDetailsDao.getById(id);
 		}else return null;
 	}
 	
 	@Override
-	public TeamPointsTable getTeamStat(int id) {
+	public TeamPointsTable getTeamStat(int id) throws NoSuchTeamException{
 		if(teamPointsTableDao.existsById(id)) {
 			return teamPointsTableDao.getById(id);
 		}else return null;

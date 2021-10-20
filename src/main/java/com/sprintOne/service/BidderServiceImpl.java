@@ -12,7 +12,10 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sprintOne.customException.EmptyLeaderboardException;
+import com.sprintOne.customException.EmptyTeamLeaderboardException;
 import com.sprintOne.customException.InvalidCredentialsException;
+import com.sprintOne.customException.NoSuchTeamException;
 import com.sprintOne.customException.UserAlreadyPresentException;
 import com.sprintOne.dao.BidderDao;
 import com.sprintOne.dao.BiddingDetailsDao;
@@ -44,7 +47,7 @@ public class BidderServiceImpl implements BiddderService {
 	BiddingDetailsDao biddingDetailsDao;
 	
 	@Override
-	public boolean registerBidder(Bidder bidder) {
+	public boolean registerBidder(Bidder bidder) throws UserAlreadyPresentException{
 		Optional<Bidder> bidderList = bidderDao.findById(bidder.getUserID());
 		List emailList=bidderDao.findAll().stream().map(bidders->bidders.getEmail()).toList();
 		if(bidderList.isPresent() || emailList.contains(bidder.getEmail())) {
@@ -79,7 +82,7 @@ public class BidderServiceImpl implements BiddderService {
 	}
 	
 	@Override
-	public TeamDetails selectTeam(int teamId) {
+	public TeamDetails selectTeam(int teamId) throws NoSuchTeamException{
 		Optional<TeamDetails> teamDetails = teamDetailsDao.findById(teamId);
 		if(teamDetails.isPresent()) {
 			return teamDetails.get();
@@ -129,12 +132,12 @@ public class BidderServiceImpl implements BiddderService {
 	}
    
     @Override
-	public List<TeamPointsTable> viewPointsTable(){
+	public List<TeamPointsTable> viewPointsTable() throws EmptyTeamLeaderboardException{
     	return teamPointsTableDao.findAll().stream().sorted(Comparator.comparingInt(TeamPointsTable :: getPoints)).collect(Collectors.toList()); 
     }
     
     @Override
-	public List<Leaderboard> viewLeaderboard(int bidderId){	
+	public List<Leaderboard> viewLeaderboard(int bidderId) throws EmptyLeaderboardException{	
     List<Leaderboard> list= leaderboardDao.findAll().stream().sorted(Comparator.comparingInt(Leaderboard :: getBidderpoints)).limit(3).collect(Collectors.toList());
     list.add(leaderboardDao.getById(bidderId));
     return list;

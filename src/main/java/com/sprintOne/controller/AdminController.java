@@ -54,7 +54,7 @@ public class AdminController {
 			return new ResponseEntity("Match cancelled", HttpStatus.OK);
 		}
 		else {
-			throw new MatchNotFoundException("Unable to cancel match");
+			throw new MatchNotFoundException("Match with id" + matchId + "is not found");
 		}
 	}
 	
@@ -79,10 +79,7 @@ public class AdminController {
 	
 	@PostMapping(value="/result")
 	public ResponseEntity declareResult(@RequestParam Map<String, String> matchresult) {
-		
-		
 		return null;
-		
 	}
     
     @PostMapping(value="/schedulematch")
@@ -122,12 +119,16 @@ public class AdminController {
     		return new ResponseEntity("No Such team",HttpStatus.BAD_REQUEST);
     	else return new ResponseEntity(count,HttpStatus.OK);
     }
-    /*   
+       
     @GetMapping(value="/biddingpercent")
    public ResponseEntity biddingPercentage(int matchId) {
-    	
-    }
-  */  
+    	double percent = adminService.biddingPercentage(matchId);
+    	if(percent == 0) {
+    		return new ResponseEntity("Percentage not available",HttpStatus.BAD_REQUEST);
+    	}
+    	else
+    		return new ResponseEntity(percent,HttpStatus.OK);
+    } 
     
     
 	
