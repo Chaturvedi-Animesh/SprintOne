@@ -2,6 +2,7 @@ package com.sprintOne.service;
 
 import java.util.List;
 
+import com.sprintOne.customException.InvalidCredentialsException;
 import com.sprintOne.model.Bidder;
 import com.sprintOne.model.BiddingDetails;
 import com.sprintOne.model.Leaderboard;
@@ -13,7 +14,7 @@ public interface BiddderService {
 
 	boolean registerBidder(Bidder bidder);
 
-	boolean loginBidder(String email, String password);
+	boolean loginBidder(String email, String password) throws InvalidCredentialsException;
 
 	List<MatchDetails> showMatchDetails();
 
