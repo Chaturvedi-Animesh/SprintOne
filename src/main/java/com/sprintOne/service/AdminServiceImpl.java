@@ -68,16 +68,7 @@ public class AdminServiceImpl implements AdminService {
 		return true;
 	}}
       
-//	public boolean manageTournament(Admin admin, int tournamentId) {
-//		Optional<Admin> adminList = adminDao.findById(tournamentId);
-//		if(adminList.isPresent()) {
-//			return false;
-//		}else {
-//			adminDao.save(admin);
-//			return true;
-//		}
-//	}
-//	
+
 	
 	@Override
 	public boolean scheduleMatches(MatchDetails details) {
