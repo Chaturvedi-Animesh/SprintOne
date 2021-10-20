@@ -7,6 +7,8 @@ import java.util.Comparator;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,10 +51,11 @@ public class BidderServiceImpl implements BiddderService {
 	@Override
 	public boolean registerBidder(Bidder bidder) throws UserAlreadyPresentException{
 		Optional<Bidder> bidderList = bidderDao.findById(bidder.getUserID());
-		List emailList=bidderDao.findAll().stream().map(bidders->bidders.getEmail()).toList();
-		if(bidderList.isPresent() || emailList.contains(bidder.getEmail())) {
+		List<String> emailList=bidderDao.findAll().stream().map(bidders->bidders.getEmail()).toList();
+	    if(bidderList.isPresent() || emailList.contains(bidder.getEmail())) {
 			return false;
-		}else {
+			}
+		else {
 			bidder.setPoints(0);
 			bidderDao.save(bidder);
 			Leaderboard leaderboard=new Leaderboard(bidder.getUserID(), bidder.getName(), 0, 0, 0, 0);

@@ -1,32 +1,24 @@
 package com.sprintOne.controller;
 
 import java.util.List;
-
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.sprintOne.customException.BidderNotFoundException;
 import com.sprintOne.customException.MatchNotFoundException;
-import com.sprintOne.model.Admin;
 import com.sprintOne.model.Bidder;
 import com.sprintOne.model.MatchDetails;
 import com.sprintOne.model.TeamDetails;
 import com.sprintOne.model.Tournament;
 import com.sprintOne.service.AdminService;
-import com.sprintOne.model.MatchSchedule;
+
 
 
 @RestController(value = "/admin")
@@ -39,7 +31,7 @@ public class AdminController {
 	@GetMapping("/bidder/{id}")
 	public ResponseEntity<Bidder> getBidder(@RequestParam int id) throws BidderNotFoundException{
 		Bidder bidder = adminService.viewBidder(id);
-		if(bidder==null) {
+		if(bidder == null) {
 			throw new BidderNotFoundException("No Such bidder");
 		}
 		else
@@ -54,7 +46,7 @@ public class AdminController {
 			return new ResponseEntity("Match cancelled", HttpStatus.OK);
 		}
 		else {
-			throw new MatchNotFoundException("Match with id" + matchId + "is not found");
+			throw new MatchNotFoundException("Match with id " + matchId + "is not found");
 		}
 	}
 	
@@ -121,7 +113,7 @@ public class AdminController {
     }
        
     @GetMapping(value="/biddingpercent")
-   public ResponseEntity biddingPercentage(int matchId) {
+   public ResponseEntity biddingPercentage(@RequestParam int matchId) {
     	double percent = adminService.biddingPercentage(matchId);
     	if(percent == 0) {
     		return new ResponseEntity("Percentage not available",HttpStatus.BAD_REQUEST);

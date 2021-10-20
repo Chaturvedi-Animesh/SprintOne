@@ -107,7 +107,12 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Override
 	public Bidder viewBidder(int id) throws BidderNotFoundException{
-		return bidderDao.findById(id).get();
+		Optional<Bidder> bidder = bidderDao.findById(id);
+		if(bidder.isPresent()) {
+			return bidder.get();
+		}
+		else
+			return null;
 	}
 	
 	
@@ -224,13 +229,18 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Override
 	public double biddingPercentage(int matchId) {
-		int teamOneId=matchDetailsDao.findById(matchId).get().getTeamOneId();
-		int teamTwoId=matchDetailsDao.findById(matchId).get().getTeamTwoId();
-		
-		long teamOneBidder=noOfBidders(teamOneId);
-		long teamTwoBidder=noOfBidders(teamTwoId);
-		
-		return ((double)teamOneBidder/(teamOneBidder+teamTwoBidder));
+		Optional<MatchDetails> md = matchDetailsDao.findById(matchId);
+		if(md.isPresent()) {
+			int teamOneId=matchDetailsDao.findById(matchId).get().getTeamOneId();
+			int teamTwoId=matchDetailsDao.findById(matchId).get().getTeamTwoId();
+			
+			long teamOneBidder=noOfBidders(teamOneId);
+			long teamTwoBidder=noOfBidders(teamTwoId);
+			
+			return ((double)teamOneBidder/(teamOneBidder+teamTwoBidder));
+		}
+		else
+			return 0;
 		
 	}
 	

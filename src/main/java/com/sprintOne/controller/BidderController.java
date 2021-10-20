@@ -3,15 +3,12 @@ package com.sprintOne.controller;
 import java.io.IOException;
 
 
+
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,12 +25,11 @@ import com.sprintOne.customException.NoSuchTeamException;
 import com.sprintOne.customException.UserAlreadyPresentException;
 import com.sprintOne.model.Bidder;
 import com.sprintOne.model.Leaderboard;
-import com.sprintOne.model.MatchDetails;
 import com.sprintOne.model.TeamDetails;
 import com.sprintOne.model.TeamPointsTable;
 import com.sprintOne.service.BiddderService;
 
-import com.sprintOne.service.BidderServiceImpl;
+
 
 @RestController
 @RequestMapping(value="/bidder")
