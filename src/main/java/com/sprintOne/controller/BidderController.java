@@ -85,9 +85,9 @@ public class BidderController {
 		
 	}
 	
-	@GetMapping("/selectTeam/{teamId}")
-	public ResponseEntity<TeamDetails> selectTeam(@PathVariable int teamId) throws NoSuchTeamException{
-		TeamDetails td = bidderService.selectTeam(teamId);
+	@GetMapping("/selectTeam/{teamId}/{userId}/{matchId}")
+	public ResponseEntity<TeamDetails> selectTeam(@PathVariable int teamId,@PathVariable int userId,@PathVariable int matchId) throws NoSuchTeamException{
+		TeamDetails td = bidderService.selectTeam(teamId,userId,matchId);
 		if(td == null) {
 			throw new NoSuchTeamException("No Such Team");
 		}

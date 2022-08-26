@@ -1,7 +1,7 @@
 package com.sprintOne.service;
 
 import java.time.LocalDateTime;
-
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +35,8 @@ public class SystemServiceImpl implements SystemService {
 	@Override
 	public List<MatchDetails> getMatchDetails() throws EmptyMatchListException{
 		
-		List<MatchDetails> matches=matchDetailsDao.findAll().stream().filter(match -> match.getDateTime().isBefore(LocalDateTime.now())).toList();
-		return matches;
+		return matchDetailsDao.findAll().stream().filter(match -> match.getDateTime().compareTo(new Date().toString())>0).toList();
+		
 	}
 	
 	@Override

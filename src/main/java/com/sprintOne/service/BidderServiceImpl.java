@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -85,10 +85,14 @@ public class BidderServiceImpl implements BiddderService {
 	}
 	
 	@Override
-	public TeamDetails selectTeam(int teamId) throws NoSuchTeamException{
-		Optional<TeamDetails> teamDetails = teamDetailsDao.findById(teamId);
-		if(teamDetails.isPresent()) {
-			return teamDetails.get();
+	public TeamDetails selectTeam(int teamId,int userId,int matchId) throws NoSuchTeamException{
+		TeamDetails teamDetails = teamDetailsDao.findById(teamId).get();
+		Bidder bidder=bidderDao.findById(userId).get();
+		MatchDetails details=matchDetailsDao.getById(matchId);
+		if(teamDetails!=null && bidder != null && details !=null) {
+			BiddingDetails biddingDetails=new BiddingDetails(userId, matchId, teamDetails.getTeamName());
+			biddingDetailsDao.save(biddingDetails);
+			return teamDetails;
 		}
 		return null;
 	}
@@ -96,7 +100,7 @@ public class BidderServiceImpl implements BiddderService {
 	@Override
 	public String changeTeam(int userId) {
 		int matchId=biddingDetailsDao.getById(userId).getMatchId();
-		if(matchDetailsDao.getById(matchId).getDateTime().isAfter(LocalDateTime.now())) {
+		if(matchDetailsDao.getById(matchId).getDateTime().compareTo(new Date().toString())>0) {
 			String teamOne=teamDetailsDao.getById(matchDetailsDao.getById(matchId).getTeamOneId()).getTeamName();
 			String teamTwo=teamDetailsDao.getById(matchDetailsDao.getById(matchId).getTeamTwoId()).getTeamName();
 			BiddingDetails biddingDetails=biddingDetailsDao.getById(userId);

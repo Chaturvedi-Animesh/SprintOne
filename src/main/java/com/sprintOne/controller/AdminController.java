@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.sprintOne.customException.BidderNotFoundException;
@@ -21,20 +22,20 @@ import com.sprintOne.service.AdminService;
 
 
 
-@RestController(value = "/admin")
+@RestController
+@RequestMapping(value = "/admin")
 public class AdminController {
 
 	@Autowired
 	AdminService adminService;
 	
 	
-	@GetMapping("/bidder/{id}")
+	@GetMapping("/bidder")
 	public ResponseEntity<Bidder> getBidder(@RequestParam int id) throws BidderNotFoundException{
 		Bidder bidder = adminService.viewBidder(id);
 		if(bidder == null) {
 			throw new BidderNotFoundException("No Such bidder");
-		}
-		else
+		}else
 		return new ResponseEntity<>(bidder,HttpStatus.OK);
 		
 	}
@@ -71,7 +72,9 @@ public class AdminController {
 	
 	@PostMapping(value="/result")
 	public ResponseEntity declareResult(@RequestParam Map<String, String> matchresult) {
-		return null;
+		adminService.declareResult(matchresult);
+		
+		return new ResponseEntity("Results Declared",HttpStatus.ACCEPTED);
 	}
     
     @PostMapping(value="/schedulematch")

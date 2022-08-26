@@ -22,8 +22,6 @@ public interface BiddderService {
 
 	List<MatchDetails> showMatchDetails();
 
-	TeamDetails selectTeam(int teamId) throws NoSuchTeamException;
-
 	String changeTeam(int userId);
 
 	void bid(BiddingDetails biddingDetails);
@@ -33,5 +31,7 @@ public interface BiddderService {
 	List<TeamPointsTable> viewPointsTable() throws EmptyTeamLeaderboardException;
 
 	List<Leaderboard> viewLeaderboard(int bidderId) throws EmptyLeaderboardException;
+
+	TeamDetails selectTeam(int teamId, int userId,int matchId) throws NoSuchTeamException;
 
 }

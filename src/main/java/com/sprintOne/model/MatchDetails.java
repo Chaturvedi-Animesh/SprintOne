@@ -1,9 +1,13 @@
 package com.sprintOne.model;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
 
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateTimeConverter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -23,7 +29,7 @@ public class MatchDetails {
 	private int matchId;
 	private int teamOneId;
 	private int teamTwoId;
-	private LocalDateTime dateTime;;
+	private String dateTime;
 	private String matchStadium;
 	private String winner;
 	private String status;
@@ -33,7 +39,7 @@ public class MatchDetails {
 		
 	}
 
-	public MatchDetails(int matchId, int teamOneId, int teamTwoId, LocalDateTime dateTime, String matchStadium,
+	public MatchDetails(int matchId, int teamOneId, int teamTwoId, String dateTime, String matchStadium,
 			String winner, String status, String delay) {
 		super();
 		this.matchId = matchId;
@@ -70,11 +76,13 @@ public class MatchDetails {
 		this.teamTwoId = teamTwoId;
 	}
 
-	public LocalDateTime getDateTime() {
+	public String getDateTime(){
+		
 		return dateTime;
 	}
 
-	public void setDateTime(LocalDateTime dateTime) {
+	public void setDateTime(String dateTime) {
+		
 		this.dateTime = dateTime;
 	}
 

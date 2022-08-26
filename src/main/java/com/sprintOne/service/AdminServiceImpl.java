@@ -1,6 +1,7 @@
 package com.sprintOne.service;
 
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -62,6 +63,7 @@ public class AdminServiceImpl implements AdminService {
 		else {
 		teamDetailsDao.save(teamDetails);
 		TeamPointsTable pointsTable=new TeamPointsTable(teamDetails.getTeamId(), teamDetails.getTeamName(), 0, 0, 0, 0, 0);
+		pointsTableDao.save(pointsTable);
 		return true;
 	}}
       
@@ -69,15 +71,8 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Override
 	public boolean scheduleMatches(MatchDetails details) {
-		int teamOneId=details.getTeamOneId();
-		int teamTwoId=details.getTeamTwoId();
-		
-		if(teamDetailsDao.findById(teamOneId).isPresent() && teamDetailsDao.findById(teamTwoId).isPresent()) {
 		matchDetailsDao.save(details);
 		return true;
-		}
-		else
-			return false;
 	}
 	
 	@Override
@@ -86,7 +81,6 @@ public class AdminServiceImpl implements AdminService {
 		if(details==null)
 			return null;
 		details.setDelay("Delay due to bad weather");
-		details.setDateTime(details.getDateTime().plusMinutes(30));
 		matchDetailsDao.save(details);
 		return details;
 	}

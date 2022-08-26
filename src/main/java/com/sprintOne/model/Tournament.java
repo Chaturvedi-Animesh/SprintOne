@@ -14,7 +14,6 @@ public class Tournament
      private int numberOfQualifiers;
      private int numberOfTeams;
      private int numberOfMatchesCompleted;
-     //private int matchId;
      public Tournament()
      {
     	 
@@ -25,7 +24,6 @@ public class Tournament
 		this.numberOfQualifiers = numberOfQualifiers;
 		this.numberOfTeams = numberOfTeams;
 		this.numberOfMatchesCompleted = numberOfMatchesCompleted;
-		//this.matchId = matchId;
 	}
 	public int getTournamentId() {
 		return tournamentId;

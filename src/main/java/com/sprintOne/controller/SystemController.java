@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,7 +20,8 @@ import com.sprintOne.model.TeamDetails;
 import com.sprintOne.model.TeamPointsTable;
 import com.sprintOne.service.SystemService;
 
-@RestController(value="/system")
+@RestController
+@RequestMapping(value="/system")
 public class SystemController {
 
 	@Autowired
@@ -34,7 +37,7 @@ public class SystemController {
 	}
 	
 	@GetMapping("/team/details/{id}")
-	public ResponseEntity<TeamDetails> getTeamDetails(@RequestParam int id) throws NoSuchTeamException{
+	public ResponseEntity<TeamDetails> getTeamDetails(@PathVariable int id) throws NoSuchTeamException{
 		TeamDetails teamDetails=systemService.getTeamDetails(id);
 		if(teamDetails==null) {
 			throw new NoSuchTeamException("No Such Team");
@@ -45,7 +48,7 @@ public class SystemController {
 	}
 	
 	@GetMapping(value="/team/stats/{id}")
-	public ResponseEntity<TeamPointsTable> getTeamStat(@RequestParam int id) throws NoSuchTeamException{
+	public ResponseEntity<TeamPointsTable> getTeamStat(@PathVariable int id) throws NoSuchTeamException{
 		TeamPointsTable pointsTable=systemService.getTeamStat(id);
 		if(pointsTable==null) {
 			throw new NoSuchTeamException("No Such Team");
